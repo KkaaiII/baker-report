@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>2026 5月 BAKER 台中門市 訪客月報</title>
+<title>2026 6月 BAKER 台中門市 訪客月報</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -792,6 +792,22 @@ canvas{display:block}
   box-shadow:0 0 12px rgba(168,200,240,.15),inset 0 1px 0 rgba(255,255,255,.1)!important;
 }
 
+
+/* ══════════════════════════════
+   周年慶 Anniversary Styles
+══════════════════════════════ */
+#anniversary-badge{
+  animation:annPulse 2.5s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes annPulse{
+  0%,100%{box-shadow:0 0 6px rgba(245,166,35,.3)}
+  50%{box-shadow:0 0 14px rgba(245,166,35,.65),0 0 24px rgba(245,166,35,.2)}
+}
+/* 周年慶 table row highlight */
+tr[style*="rgba(245,166,35"]:hover{
+  background:linear-gradient(90deg,rgba(245,166,35,.12),rgba(245,166,35,.04))!important;
+}
 /* mode-toggle merged */
 
 /* ── PAGE TITLE 玻璃 ── */
@@ -835,7 +851,7 @@ canvas{display:block}
   <span class="tb-dot"></span>
   <span class="tb-logo"><em>BAKER</em> 台中門市</span>
   <span class="tb-spacer"></span>
-  <span class="tb-badge">最後更新：2026 年 五月</span>
+  <span class="tb-badge">最後更新：2026 年 六月</span>
   <button class="mode-toggle" onclick="toggleMode()" id="modeBtn" aria-label="切換模式">
     <div class="mode-pill" id="modePill"></div>
     <span class="mode-seg" id="segDay">白天</span>
@@ -847,8 +863,8 @@ canvas{display:block}
 
   <!-- HEADER -->
   <div class="page-header">
-    <h1>2026 5月 <em>BAKER 台中門市</em> 訪客月報</h1>
-    <p>四月 — 十二月 年度追蹤・資料範圍：Apr – May 2026</p>
+    <h1>2026 6月 <em>BAKER 台中門市</em> 訪客月報</h1>
+    <p>四月 — 十二月 年度追蹤・資料範圍：Apr – Jun 2026・🎂 周年慶月・Q2</p>
   </div>
 
   <!-- TAB NAV -->
@@ -867,7 +883,7 @@ canvas{display:block}
     </button>
     <button class="tab-btn" onclick="switchTab('report')" id="tab-report">
       <span class="tab-icon">🔍</span>
-      <span class="tab-label"><span class="tab-title">五月分析</span><span class="tab-sub">報告 · 建議</span></span>
+      <span class="tab-label"><span class="tab-title">六月分析</span><span class="tab-sub">報告 · 建議</span></span>
     </button>
   </div>
 
@@ -876,73 +892,73 @@ canvas{display:block}
   <!-- ═══════════════════════════════════════ -->
   <div class="tab-page active" id="page-overview">
     <div class="page-title">
-      <div class="pt-bar"><span class="pt-icon">📊</span><span class="pt-badge">截至五月</span></div>
+      <div class="pt-bar"><span class="pt-icon">📊</span><span class="pt-badge">截至六月・Q2</span></div>
       <h2>月報總覽</h2>
-      <p>全年累計數據・五月當月表現・四月 vs 五月對照</p>
+      <p>全年累計數據・六月當月表現・五月 vs 六月對照・Q2（四月–六月）匯總</p>
     </div>
     <div class="sec">全年累計</div>
     <div class="g4">
       <div class="kpi" style="--kc:var(--blue)">
         <div class="kpi-label">全年訪客次數（筆）</div>
-        <div class="kpi-val"><span class="count-num" data-target="13">0</span></div>
-        <div class="kpi-sub">四月 6 + 五月 7</div>
+        <div class="kpi-val"><span class="count-num" data-target="23">0</span></div>
+        <div class="kpi-sub">四月 6 + 五月 7 + 六月 10</div>
       </div>
       <div class="kpi" style="--kc:var(--blue2)">
         <div class="kpi-label">全年總人數（人）</div>
-        <div class="kpi-val"><span class="count-num" data-target="33">0</span></div>
-        <div class="kpi-sub">四月 16 + 五月 17</div>
+        <div class="kpi-val"><span class="count-num" data-target="55">0</span></div>
+        <div class="kpi-sub">四月 16 + 五月 17 + 六月 22</div>
       </div>
       <div class="kpi" style="--kc:var(--green2)">
         <div class="kpi-label">設計公司（次）</div>
-        <div class="kpi-val"><span class="count-num" data-target="5">0</span></div>
-        <div class="kpi-sub">四月 2 + 五月 3</div>
+        <div class="kpi-val"><span class="count-num" data-target="7">0</span></div>
+        <div class="kpi-sub">四月 2 + 五月 3 + 六月 2</div>
       </div>
       <div class="kpi" style="--kc:var(--pink)">
         <div class="kpi-label">業主（次）</div>
-        <div class="kpi-val"><span class="count-num" data-target="6">0</span></div>
-        <div class="kpi-sub">四月 2 + 五月 4</div>
+        <div class="kpi-val"><span class="count-num" data-target="12">0</span></div>
+        <div class="kpi-sub">四月 2 + 五月 4 + 六月 6</div>
       </div>
     </div>
 
-    <div class="sec">五月當月數據</div>
+    <div class="sec">六月當月數據 <span style="font-size:10px;background:linear-gradient(135deg,#f5a623,#e8960f);color:#3a1a00;border-radius:999px;padding:1px 8px;margin-left:6px;font-weight:800;vertical-align:middle;opacity:.9">🎂 周年慶月</span></div>
     <div class="g5">
       <div class="mkpi" style="--mc:var(--blue)">
         <div class="mkpi-label">訪客次數（筆）</div>
-        <div class="mkpi-val"><span class="count-num" data-target="7">0</span></div>
+        <div class="mkpi-val"><span class="count-num" data-target="10">0</span></div>
       </div>
       <div class="mkpi" style="--mc:var(--blue2)">
         <div class="mkpi-label">本月總人數（人）</div>
-        <div class="mkpi-val"><span class="count-num" data-target="17">0</span></div>
+        <div class="mkpi-val"><span class="count-num" data-target="22">0</span></div>
       </div>
       <div class="mkpi" style="--mc:var(--pink)">
         <div class="mkpi-label">業主來訪</div>
-        <div class="mkpi-val"><span class="count-num" data-target="4">0</span></div>
+        <div class="mkpi-val"><span class="count-num" data-target="6">0</span></div>
       </div>
       <div class="mkpi" style="--mc:var(--green2)">
         <div class="mkpi-label">設計公司來訪</div>
-        <div class="mkpi-val"><span class="count-num" data-target="3">0</span></div>
+        <div class="mkpi-val"><span class="count-num" data-target="2">0</span></div>
       </div>
       <div class="mkpi" style="--mc:var(--ghost)">
         <div class="mkpi-label">配案採購占比</div>
-        <div class="mkpi-val">57%</div>
+        <div class="mkpi-val">40%</div>
       </div>
     </div>
 
     <div class="sec">月份數據對照</div>
     <div class="panel">
       <div class="ph">
-        <div class="ph-l"><h2>四月 vs 五月 完整比較</h2><p>所有可用指標逐一對照</p></div>
+        <div class="ph-l"><h2>五月 vs 六月 完整比較</h2><p>所有可用指標逐一對照</p></div>
         <span class="ph-badge b-blue">2 個月</span>
       </div>
       <table class="ct">
-        <thead><tr><th style="padding-left:20px">指標</th><th>四月</th><th>五月</th><th style="padding-right:20px">變化</th></tr></thead>
+        <thead><tr><th style="padding-left:20px">指標</th><th>五月</th><th>六月</th><th style="padding-right:20px">變化</th></tr></thead>
         <tbody>
-          <tr><td style="padding-left:20px">訪客次數（筆）</td><td>6</td><td>7</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +1</span></td></tr>
-          <tr><td style="padding-left:20px">到訪總人數（人）</td><td>16</td><td>17</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +1</span></td></tr>
-          <tr><td style="padding-left:20px">業主（次）</td><td>2</td><td>4</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +2</span></td></tr>
-          <tr><td style="padding-left:20px">設計公司（次）</td><td>2</td><td>3</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +1</span></td></tr>
-          <tr><td style="padding-left:20px">其他（次）</td><td>2</td><td>0</td><td style="padding-right:20px"><span class="diff dn">↓ -2</span></td></tr>
-          <tr><td style="padding-left:20px">配案採購占比</td><td>40%</td><td>57%</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +17%</span></td></tr>
+          <tr><td style="padding-left:20px">訪客次數（筆）</td><td>7</td><td>10</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +3</span></td></tr>
+          <tr><td style="padding-left:20px">到訪總人數（人）</td><td>17</td><td>22</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +5</span></td></tr>
+          <tr><td style="padding-left:20px">業主（次）</td><td>4</td><td>6</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +2</span></td></tr>
+          <tr><td style="padding-left:20px">設計公司（次）</td><td>3</td><td>2</td><td style="padding-right:20px"><span class="diff dn">↓ -1</span></td></tr>
+          <tr><td style="padding-left:20px">其他（次）</td><td>0</td><td>2</td><td style="padding-right:20px"><span class="diff up"><span class="arrow-up">↑</span> +2</span></td></tr>
+          <tr><td style="padding-left:20px">配案採購占比</td><td>57%</td><td>40%</td><td style="padding-right:20px"><span class="diff dn">↓ -17%</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -954,16 +970,42 @@ canvas{display:block}
   <!-- ═══════════════════════════════════════ -->
   <div class="tab-page" id="page-trend">
     <div class="page-title">
-      <div class="pt-bar"><span class="pt-icon">📈</span><span class="pt-badge">四月 – 五月</span></div>
+      <div class="pt-bar"><span class="pt-icon">📈</span><span class="pt-badge">四月 – 六月・Q2</span></div>
       <h2>趨勢分析</h2>
-      <p>每月到訪組成趨勢・業主 vs 設計公司變化・來源分布・配案占比</p>
+      <p>每月到訪組成趨勢・業主 vs 設計公司變化・來源分布・配案占比・Q2匯總</p>
     </div>
+    
+    <!-- Q2 匯總 Banner -->
+    <div class="sec">Q2 季度匯總 <span style="font-size:10px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:999px;padding:1px 9px;margin-left:6px;font-weight:800;vertical-align:middle;opacity:.9">四月 – 六月</span></div>
+    <div class="g4" style="margin-bottom:24px">
+      <div class="kpi" style="--kc:var(--blue)">
+        <div class="kpi-label">Q2 訪客次數</div>
+        <div class="kpi-val" style="font-size:32px">23</div>
+        <div class="kpi-sub">四月 6・五月 7・六月 10</div>
+      </div>
+      <div class="kpi" style="--kc:var(--blue2)">
+        <div class="kpi-label">Q2 總人數</div>
+        <div class="kpi-val" style="font-size:32px">55</div>
+        <div class="kpi-sub">四月 16・五月 17・六月 22</div>
+      </div>
+      <div class="kpi" style="--kc:var(--green2)">
+        <div class="kpi-label">業主（次）</div>
+        <div class="kpi-val" style="font-size:32px">12</div>
+        <div class="kpi-sub">四月 2・五月 4・六月 6</div>
+      </div>
+      <div class="kpi" style="--kc:var(--pink)">
+        <div class="kpi-label">設計公司（次）</div>
+        <div class="kpi-val" style="font-size:32px">7</div>
+        <div class="kpi-sub">四月 2・五月 3・六月 2</div>
+      </div>
+    </div>
+
     <div class="sec">月份趨勢</div>
     <div class="g2">
       <div class="panel">
         <div class="ph">
           <div class="ph-l"><h2>每月到訪組成 & 配案占比</h2><p>業主 / 設計公司 / 其他 人次堆疊・右軸配案占比</p></div>
-          <span class="ph-badge b-green"><span class="badge-grow-arrow">↑</span> 成長中</span>
+          <span class="ph-badge b-green"><span class="badge-grow-arrow">↑</span> Q2 高峰</span>
         </div>
         <div class="pb"><div class="cw"><canvas id="stackChart"></canvas></div></div>
       </div>
@@ -981,13 +1023,13 @@ canvas{display:block}
           <div class="src-list" style="width:100%" style="margin-bottom:18px">
             <div class="src-row">
               <span class="src-name">業主自主</span>
-              <div class="src-track"><div class="src-fill" style="width:0%;background:var(--blue)" data-w="46"></div></div>
-              <span class="src-num" style="color:var(--blue)">6</span>
+              <div class="src-track"><div class="src-fill" style="width:0%;background:var(--blue)" data-w="55"></div></div>
+              <span class="src-num" style="color:var(--blue)">12</span>
             </div>
             <div class="src-row">
               <span class="src-name">設計公司</span>
-              <div class="src-track"><div class="src-fill" style="width:0%;background:var(--green2)" data-w="38"></div></div>
-              <span class="src-num" style="color:var(--green2)">5</span>
+              <div class="src-track"><div class="src-fill" style="width:0%;background:var(--green2)" data-w="32"></div></div>
+              <span class="src-num" style="color:var(--green2)">7</span>
             </div>
             <div class="src-row">
               <span class="src-name">其他</span>
@@ -1011,6 +1053,11 @@ canvas{display:block}
             <div class="conv-track"><div class="conv-fill" style="width:0%;background:var(--green2)" data-w="57"></div></div>
             <div class="conv-sub">訪客 7 筆・業主 4・設計公司 3・其他 0</div>
           </div>
+          <div>
+            <div class="conv-top"><span class="conv-mo" style="color:var(--blue)">六月 🎂</span><span class="conv-badge cb-md">40% 中</span></div>
+            <div class="conv-track"><div class="conv-fill" style="width:0%;background:var(--blue)" data-w="40"></div></div>
+            <div class="conv-sub">訪客 10 筆・業主 6・設計公司 2・其他 2・周年慶月</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1022,43 +1069,49 @@ canvas{display:block}
   <!-- ═══════════════════════════════════════ -->
   <div class="tab-page" id="page-detail">
     <div class="page-title">
-      <div class="pt-bar"><span class="pt-icon">📋</span><span class="pt-badge">7 筆・17 人次</span></div>
+      <div class="pt-bar"><span class="pt-icon">📋</span><span class="pt-badge">10 筆・22 人次</span></div>
       <h2>訪客明細</h2>
-      <p>2026 年五月完整到訪記錄・接待人員・可依類型篩選</p>
+      <p>2026 年六月完整到訪記錄・接待人員・可依類型篩選・周年慶月</p>
     </div>
-    <div class="sec">業務及接待人員（五月）</div>
+    <div class="sec">業務及接待人員（六月・🎂 周年慶）</div>
     <div class="panel">
-      <div class="ph"><div class="ph-l"><h2>接待人員表現</h2><p>五月各業務接待次數・雙人接待另行標示</p></div></div>
+      <div class="ph"><div class="ph-l"><h2>接待人員表現</h2><p>六月各業務接待次數・周年慶月・雙人接待另行標示</p></div></div>
       <div class="pb">
         <div class="staff-grid">
+          <div class="staff-card">
+            <div class="staff-name">Cindy</div>
+            <div class="staff-num" style="color:var(--blue)">6</div>
+            <div class="staff-sub">接待訪次</div>
+            <div class="staff-note">林太太・陳先生・張先生・吳小姐・許先生・06/19</div>
+          </div>
+          <div class="staff-card">
+            <div class="staff-name">Kelvin</div>
+            <div class="staff-num" style="color:var(--blue)">2</div>
+            <div class="staff-sub">接待訪次</div>
+            <span class="staff-dbl">+ Honnon 協同</span>
+            <div class="staff-note">06/04 何先生・06/21 王先生</div>
+          </div>
           <div class="staff-card">
             <div class="staff-name">Daniel</div>
             <div class="staff-num" style="color:var(--blue)">1</div>
             <div class="staff-sub">接待訪次</div>
-            <div class="staff-note">05/07 李小姐・水相設計</div>
+            <div class="staff-note">06/17 Frances Wu</div>
           </div>
           <div class="staff-card">
-            <div class="staff-name">Aaron</div>
-            <div class="staff-num" style="color:var(--blue)">2</div>
+            <div class="staff-name">Sean</div>
+            <div class="staff-num" style="color:var(--blue)">1</div>
             <div class="staff-sub">接待訪次</div>
-            <div class="staff-note">05/08 崢嶸設計・雲頂設計</div>
-          </div>
-          <div class="staff-card">
-            <div class="staff-name">Kelvin</div>
-            <div class="staff-num" style="color:var(--blue)">4</div>
-            <div class="staff-sub">接待訪次</div>
-            <span class="staff-dbl">+ Honnon 協同</span>
-            <div class="staff-note">江老師×2・吉日設計・吳先生</div>
+            <div class="staff-note">06/03 李先生・玥境設計</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="sec">五月訪客明細</div>
+    <div class="sec">六月訪客明細 <span style="font-size:10px;background:linear-gradient(135deg,#f5a623,#e8960f);color:#3a1a00;border-radius:999px;padding:1px 8px;margin-left:6px;font-weight:800;vertical-align:middle">🎂 周年慶月</span></div>
     <div class="panel">
       <div class="ph">
-        <div class="ph-l"><h2>完整到訪記錄</h2><p>2026 年 五月・共 7 筆・17 人次</p></div>
-        <span class="ph-badge b-blue">7 筆訪次</span>
+        <div class="ph-l"><h2>完整到訪記錄</h2><p>2026 年 六月・共 10 筆・22 人次・全月周年慶</p></div>
+        <span class="ph-badge b-blue">10 筆訪次</span>
       </div>
       <div class="pb" style="padding-bottom:14px">
         <div class="filter-row">
@@ -1073,58 +1126,70 @@ canvas{display:block}
         <table class="dt">
           <thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>參訪目的</th><th>接待</th><th>備註</th></tr></thead>
           <tbody>
-            <tr data-src="業主" data-purpose="配案採購">
-              <td>05/07</td><td>李小姐</td>
+            <tr data-src="業主" data-purpose="其他">
+              <td>06/03</td><td>李先生</td>
               <td><span class="tag t-owner">業主</span></td>
-              <td>水相設計</td><td>3</td>
-              <td><span class="tag t-purchase">配案採購</span></td>
-              <td>Daniel</td><td class="note-cell">台北 至仁愛</td>
-            </tr>
-            <tr data-src="設計公司" data-purpose="了解品牌">
-              <td>05/08</td><td>廖嶸</td>
-              <td><span class="tag t-design">設計公司</span></td>
-              <td>崢嶸設計</td><td>3</td>
+              <td>玥境設計</td><td>1</td>
               <td><span class="tag t-brand">了解品牌</span></td>
-              <td>Aaron</td><td class="note-cell">設計師與業主商談商機，接觸 BAKER<br><span style="color:var(--faint)">建案：精銳市政廳</span></td>
+              <td>Sean</td><td class="note-cell">了解品牌</td>
             </tr>
-            <tr data-src="設計公司" data-purpose="了解品牌">
-              <td>05/08</td><td>張瓊文</td>
+            <tr data-src="設計公司" data-purpose="配案採購">
+              <td>06/04</td><td>何先生</td>
               <td><span class="tag t-design">設計公司</span></td>
-              <td>雲頂設計</td><td>1</td>
-              <td><span class="tag t-brand">了解品牌</span></td>
-              <td>Aaron</td><td class="note-cell">—</td>
-            </tr>
-            <tr data-src="業主" data-purpose="配案採購">
-              <td>05/14</td><td>江屘菊</td>
-              <td><span class="tag t-owner">業主</span></td>
-              <td>—</td><td>1</td>
+              <td>禾築設計</td><td>2</td>
               <td><span class="tag t-purchase">配案採購</span></td>
-              <td>Kelvin <span class="dbl-tag">+ Honnon</span></td>
-              <td class="note-cell">江老師新家客廳配置，折扣品為主</td>
+              <td>Aaron / Kelvin</td><td class="note-cell">—</td>
             </tr>
-            <tr data-src="業主" data-purpose="配案採購">
-              <td>05/21</td><td>江屘菊</td>
-              <td><span class="tag t-owner">業主</span></td>
-              <td>—</td><td>1</td>
-              <td><span class="tag t-purchase">配案採購</span></td>
-              <td>Kelvin <span class="dbl-tag">+ Honnon</span></td>
-              <td class="note-cell">確認品項及新品參觀</td>
-            </tr>
-            <tr data-src="設計公司" data-purpose="了解品牌">
-              <td>05/28</td><td>吉日設計</td>
-              <td><span class="tag t-design">設計公司</span></td>
-              <td>吉日設計</td><td>6</td>
-              <td><span class="tag t-brand">了解品牌</span></td>
-              <td>Kelvin <span class="dbl-tag">+ Honnon</span></td>
-              <td class="note-cell">業主已了解過 BAKER，設計公司先來店參訪</td>
-            </tr>
-            <tr data-src="業主" data-purpose="配案採購">
-              <td>05/29</td><td>吳先生</td>
+            <tr data-src="業主" data-purpose="配案採購" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/16</td><td>林太太</td>
               <td><span class="tag t-owner">業主</span></td>
               <td>—</td><td>2</td>
               <td><span class="tag t-purchase">配案採購</span></td>
+              <td>Cindy</td><td class="note-cell">了解品項與訂製方案・<span style="color:#f5a623;font-weight:600">🎂 周年慶</span></td>
+            </tr>
+            <tr data-src="業主" data-purpose="配案採購" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/17</td><td>陳先生</td>
+              <td><span class="tag t-owner">業主</span></td>
+              <td>明舍</td><td>4</td>
+              <td><span class="tag t-purchase">配案採購</span></td>
+              <td>Cindy</td><td class="note-cell">參觀新品・<span style="color:#f5a623;font-weight:600">🎂 周年慶帶業主</span></td>
+            </tr>
+            <tr data-src="業主" data-purpose="其他" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/17</td><td>Frances Wu</td>
+              <td><span class="tag t-owner">業主</span></td>
+              <td>—</td><td>1</td>
+              <td><span class="tag t-brand">了解品牌</span></td>
+              <td>Daniel</td><td class="note-cell">了解品牌・<span style="color:#f5a623;font-weight:600">🎂 周年慶</span></td>
+            </tr>
+            <tr data-src="業主" data-purpose="配案採購" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/19</td><td>張先生</td>
+              <td><span class="tag t-owner">業主</span></td>
+              <td>—</td><td>3</td>
+              <td><span class="tag t-purchase">配案採購</span></td>
+              <td>Cindy</td><td class="note-cell"><span style="color:#f5a623;font-weight:600">🎂 周年慶</span></td>
+            </tr>
+            <tr data-src="設計公司" data-purpose="配案採購" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/21</td><td>王先生</td>
+              <td><span class="tag t-design">設計公司</span></td>
+              <td>禾築設計</td><td>2</td>
+              <td><span class="tag t-purchase">配案採購</span></td>
               <td>Kelvin <span class="dbl-tag">+ Honnon</span></td>
-              <td class="note-cell">訂製為主，8 月會入住</td>
+              <td class="note-cell">了解新品・業主已接觸 BAKER・<span style="color:#f5a623;font-weight:600">🎂 周年慶</span></td>
+            </tr>
+            <tr data-src="業主" data-purpose="配案採購" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/22</td><td>吳小姐</td>
+              <td><span class="tag t-owner">業主</span></td>
+              <td>禾築設計</td><td>5</td>
+              <td><span class="tag t-purchase">配案採購</span></td>
+              <td>Cindy</td><td class="note-cell">帶業主 10 人參觀・<span style="color:#f5a623;font-weight:600">🎂 周年慶</span></td>
+            </tr>
+            <tr data-src="業主" data-purpose="配案採購" style="background:linear-gradient(90deg,rgba(245,166,35,.06),transparent)">
+              <td>06/25</td><td>許先生</td>
+              <td><span class="tag t-owner">業主</span></td>
+              <td>—</td><td>2</td>
+              <td><span class="tag t-purchase">配案採購</span></td>
+              <td>Cindy <span class="dbl-tag">+ Sean</span></td>
+              <td class="note-cell">配案確認・<span style="color:#f5a623;font-weight:600">🎂 周年慶</span></td>
             </tr>
           </tbody>
         </table>
@@ -1135,45 +1200,45 @@ canvas{display:block}
   </div><!-- /tab3 -->
 
   <!-- ═══════════════════════════════════════ -->
-  <!-- TAB 4: 五月分析報告 -->
+  <!-- TAB 4: 六月分析報告 -->
   <!-- ═══════════════════════════════════════ -->
   <div class="tab-page" id="page-report">
     <div class="page-title">
-      <div class="pt-bar"><span class="pt-icon">🔍</span><span class="pt-badge">2026 / 05</span></div>
-      <h2>五月分析報告</h2>
-      <p>依實際訪客記錄整理・業主動態・設計公司來訪・來源結構觀察</p>
+      <div class="pt-bar"><span class="pt-icon">🔍</span><span class="pt-badge">2026 / 06・Q2</span></div>
+      <h2>六月分析報告 <span style="font-size:13px;background:linear-gradient(135deg,#f5a623,#f7c471);color:#3a1a00;border-radius:999px;padding:2px 10px;margin-left:6px;font-weight:800;vertical-align:middle;box-shadow:0 0 8px rgba(245,166,35,.3)">🎂 周年慶月</span></h2>
+      <p>依實際訪客記錄整理・六月周年慶特別月・Q2（四–六月）季度回顧</p>
     </div>
-        <div class="sec">五月分析報告</div>
+        <div class="sec">六月分析報告・Q2 季度回顧</div>
     <div class="panel">
       <div class="ph">
-        <div class="ph-l"><h2>五月重點分析</h2><p>依實際訪客記錄・2026 / 05 / 01 – 05 / 31</p></div>
-        <span class="ph-badge b-green">整體表現佳</span>
+        <div class="ph-l"><h2>六月重點分析</h2><p>依實際訪客記錄・2026 / 06 / 01 – 06 / 30・全月周年慶</p></div>
+        <span class="ph-badge b-green">🎂 周年慶月・成長最強</span>
       </div>
       <div class="pb">
         <div class="a-grid">
+          <div class="a-card" style="--ac:#f5a623">
+            <div class="a-icon">🎂</div>
+            <div class="a-title">周年慶效應</div>
+            <div class="a-text">六月為周年慶月，全月共 <strong>10 筆訪次、22 人次</strong>，較五月（7 筆、17 人次）大幅成長，創單月新高。周年慶直接帶動 <strong>8 筆周年慶相關到訪</strong>，轉換力強。</div>
+            <div class="a-hi">周年慶為本季最強催化劑，建議明年擴大舉辦規模</div>
+          </div>
           <div class="a-card" style="--ac:var(--blue)">
             <div class="a-icon">📊</div>
-            <div class="a-title">整體表現</div>
-            <div class="a-text">五月共 <strong>7 筆訪次、17 人次</strong>到訪，較四月（6 筆、16 人次）穩定成長。配案採購占比達 <strong>57%</strong>，為目前最高單月表現。</div>
-            <div class="a-hi">業主 4 次為四月兩倍，主動來訪意願明顯提升</div>
+            <div class="a-title">Q2 季度回顧</div>
+            <div class="a-text">Q2（四–六月）累計 <strong>23 筆訪次、55 人次</strong>，業主 12 次、設計公司 7 次。六月單月占 Q2 訪次 <strong>43%</strong>，周年慶為 Q2 最強驅動因素。</div>
+            <div class="a-hi">Q2 整體配案采購比均超 40%，客戶質量持續提升</div>
           </div>
           <div class="a-card" style="--ac:var(--green2)">
             <div class="a-icon">🏢</div>
             <div class="a-title">設計公司動態</div>
-            <div class="a-text">本月 3 組到訪：<strong>崢嶸設計</strong>（精銳市政廳建案，設計師與業主同行）、<strong>雲頂設計</strong>（品牌初探）、<strong>吉日設計</strong>（6 人，業主已知 BAKER）。</div>
-            <div class="a-hi">吉日設計 6 人為本月最大單筆，口碑已在設計圈發酵</div>
-          </div>
-          <div class="a-card" style="--ac:var(--ghost)">
-            <div class="a-icon">🏠</div>
-            <div class="a-title">業主個案追蹤</div>
-            <div class="a-text"><strong>江老師</strong> 05/14、05/21 連續兩次回訪，從初步了解到確認品項，黏著度高。<strong>吳先生</strong>（05/29）訂製需求明確，<strong>預計 8 月入住</strong>，需持續追蹤。</div>
-            <div class="a-hi">江老師為回訪業主，建議 6 月持續跟進促成成交</div>
+            <div class="a-text">本月 <strong>禾築設計</strong>連續兩次到訪（06/04 何先生、06/21 王先生），顯示深度合作意願。業主吳小姐由禾築設計帶入，<strong>B2D2C 模式</strong>持續發酵。</div>
+            <div class="a-hi">禾築設計為本月最重要設計公司夥伴，建議加深關係</div>
           </div>
           <div class="a-card" style="--ac:var(--pink)">
-            <div class="a-icon">📈</div>
-            <div class="a-title">來源結構觀察</div>
-            <div class="a-text">五月無「其他」來源，業主自主與設計公司推薦兩條管道並行。李小姐（水相設計）屬業主透過設計公司牽線，<strong>B2D2C 模式</strong>已開始形成。</div>
-            <div class="a-hi">建議持續深化設計公司關係，作為長期客源重點</div>
+            <div class="a-icon">🏠</div>
+            <div class="a-title">業主個案追蹤</div>
+            <div class="a-text"><strong>吳小姐</strong>（06/22）帶 5 人到訪、禾築設計配合，為本月最大單筆。<strong>許先生</strong>（06/25）已進入配案確認階段，Sean 協助跟進，<strong>7 月成交機率高</strong>。</div>
+            <div class="a-hi">許先生為近期最成熟客戶，建議本週完成最終確認</div>
           </div>
         </div>
       </div>
@@ -1386,12 +1451,12 @@ function initCharts(){
     charts.stack=new Chart(sc,{
       type:'bar',
       data:{
-        labels:['四月','五月'],
+        labels:['四月','五月','六月'],
         datasets:[
-          {type:'bar',label:'業主人次',data:[8,7],backgroundColor:BLUE+'99',borderRadius:4,borderSkipped:false,stack:'s',yAxisID:'y'},
-          {type:'bar',label:'設計公司人次',data:[5,10],backgroundColor:GREEN+'99',borderRadius:4,borderSkipped:false,stack:'s',yAxisID:'y'},
-          {type:'bar',label:'其他人次',data:[3,0],backgroundColor:MUTED+'55',borderRadius:4,borderSkipped:false,stack:'s',yAxisID:'y'},
-          {type:'line',label:'配案占比 %',data:[40,57],borderColor:GHOST,backgroundColor:'transparent',tension:.3,borderWidth:2.5,pointRadius:5,borderDash:[5,3],yAxisID:'y2'}
+          {type:'bar',label:'業主人次',data:[8,7,8],backgroundColor:BLUE+'99',borderRadius:4,borderSkipped:false,stack:'s',yAxisID:'y'},
+          {type:'bar',label:'設計公司人次',data:[5,10,4],backgroundColor:GREEN+'99',borderRadius:4,borderSkipped:false,stack:'s',yAxisID:'y'},
+          {type:'bar',label:'其他人次',data:[3,0,2],backgroundColor:MUTED+'55',borderRadius:4,borderSkipped:false,stack:'s',yAxisID:'y'},
+          {type:'line',label:'配案占比 %',data:[40,57,40],borderColor:GHOST,backgroundColor:'transparent',tension:.3,borderWidth:2.5,pointRadius:5,borderDash:[5,3],yAxisID:'y2'}
         ]
       },
       options:{
@@ -1408,30 +1473,30 @@ function initCharts(){
   }
 
   /* 自訂 glow plugin for line points */
+  var _glowT=0;
   var glowPlugin={
     id:'glowPoints',
     afterDraw:function(chart){
       var ctx=chart.ctx;
+      var pulse=0.5+0.5*Math.sin(_glowT*2);
       chart.data.datasets.forEach(function(ds,i){
-        if(ds.type!=='line'&&chart.config.type!=='line')return;
-        if(ds.type==='line'||(chart.config.type==='line')){
-          var meta=chart.getDatasetMeta(i);
-          meta.data.forEach(function(pt){
-            if(!pt||pt.skip)return;
-            var x=pt.x,y=pt.y;
-            var t=Date.now()/1000;
-            var pulse=0.5+0.5*Math.sin(t*2+i);
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(x,y,8,0,Math.PI*2);
-            var grad=ctx.createRadialGradient(x,y,1,x,y,10);
-            grad.addColorStop(0,'rgba(221,216,208,'+(0.5+0.4*pulse)+')');
-            grad.addColorStop(1,'rgba(221,216,208,0)');
-            ctx.fillStyle=grad;
-            ctx.fill();
-            ctx.restore();
-          });
-        }
+        var isLine=(ds.type==='line'||chart.config.type==='line');
+        if(!isLine)return;
+        var meta=chart.getDatasetMeta(i);
+        if(!meta||!meta.data)return;
+        meta.data.forEach(function(pt){
+          if(!pt||pt.skip||isNaN(pt.x)||isNaN(pt.y))return;
+          var x=pt.x,y=pt.y;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x,y,9,0,Math.PI*2);
+          var grad=ctx.createRadialGradient(x,y,1,x,y,9);
+          grad.addColorStop(0,'rgba(221,216,208,'+(0.4+0.35*pulse)+')');
+          grad.addColorStop(1,'rgba(221,216,208,0)');
+          ctx.fillStyle=grad;
+          ctx.fill();
+          ctx.restore();
+        });
       });
     }
   };
@@ -1439,10 +1504,15 @@ function initCharts(){
 
   /* 持續重繪讓發光動畫跑起來 */
   function animateCharts(){
-    Object.values(charts).forEach(function(c){if(c&&c.draw)c.draw();});
+    _glowT+=0.025;
+    Object.values(charts).forEach(function(c){
+      if(c&&c.canvas&&c.canvas.isConnected){
+        try{c.draw();}catch(e){}
+      }
+    });
     requestAnimationFrame(animateCharts);
   }
-  setTimeout(animateCharts,500);
+  setTimeout(animateCharts,800);
 
   /* GROUPED BAR */
   var tc=document.getElementById('typeChart');
@@ -1450,11 +1520,11 @@ function initCharts(){
     charts.type=new Chart(tc,{
       type:'bar',
       data:{
-        labels:['四月','五月'],
+        labels:['四月','五月','六月'],
         datasets:[
-          {label:'業主',data:[2,4],backgroundColor:BLUE+'bb',borderRadius:5,borderSkipped:false},
-          {label:'設計公司',data:[2,3],backgroundColor:GREEN+'bb',borderRadius:5,borderSkipped:false},
-          {label:'其他',data:[2,0],backgroundColor:MUTED+'55',borderRadius:5,borderSkipped:false}
+          {label:'業主',data:[2,4,6],backgroundColor:BLUE+'bb',borderRadius:5,borderSkipped:false},
+          {label:'設計公司',data:[2,3,2],backgroundColor:GREEN+'bb',borderRadius:5,borderSkipped:false},
+          {label:'其他',data:[2,0,2],backgroundColor:MUTED+'55',borderRadius:5,borderSkipped:false}
         ]
       },
       options:{
@@ -1478,7 +1548,7 @@ function initCharts(){
       type:'doughnut',
       data:{
         labels:['業主自主','設計公司','其他'],
-        datasets:[{data:[6,5,2],backgroundColor:[BLUE,GREEN,MUTED],borderWidth:0,hoverOffset:8}]
+        datasets:[{data:[12,7,3],backgroundColor:[BLUE,GREEN,MUTED],borderWidth:0,hoverOffset:8}]
       },
       options:{
         responsive:false,maintainAspectRatio:false,cutout:'66%',
