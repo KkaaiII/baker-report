@@ -1,1224 +1,159 @@
+
 <!DOCTYPE html>
-<html lang="zh-TW" data-theme="dark">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>BAKER 台中門市 訪客月報 2026</title>
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAKER 台中門市 七月月報儀表板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   RESET
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;font-size:16px}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   TOKENS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-:root{
-  --ease-spring:cubic-bezier(.34,1.56,.64,1);
-  --ease-out:cubic-bezier(.16,1,.3,1);
-  --ease-in:cubic-bezier(.4,0,1,1);
-  --t1:120ms; --t2:260ms; --t3:420ms;
-
-  /* glass */
-  --g1:rgba(255,255,255,.68);
-  --g2:rgba(255,255,255,.45);
-  --g3:rgba(255,255,255,.24);
-  --g4:rgba(255,255,255,.10);
-  --gb:rgba(255,255,255,.75);
-  --gb2:rgba(255,255,255,.45);
-  --gb3:rgba(255,255,255,.18);
-  --gs:0 8px 32px rgba(60,80,120,.13),0 1.5px 0 rgba(255,255,255,.88) inset,0 -1px 0 rgba(0,0,0,.04) inset;
-  --gs-lg:0 20px 60px rgba(60,80,120,.18),0 2px 0 rgba(255,255,255,.9) inset;
-  --gs-xl:0 28px 80px rgba(60,80,120,.22),0 2px 0 rgba(255,255,255,.95) inset;
-
-  /* bg */
-  --bg-a:#d4e8fa; --bg-b:#ead8f8; --bg-c:#ccf0e6;
-
-  /* text */
-  --tx:#18202e; --mu:#556080; --fa:#98a0bc; --fa2:#d0d4e4;
-
-  /* accents */
-  --blue:#0055bb;   --blue-g:rgba(0,85,187,.14);
-  --green:#167a44;  --green-g:rgba(22,122,68,.14);
-  --pink:#be2860;   --pink-g:rgba(190,40,96,.14);
-  --teal:#007070;   --teal-g:rgba(0,112,112,.14);
-  --gold:#a87000;   --gold-g:rgba(168,112,0,.14);
-  --mu-g:rgba(0,0,0,.05);
-
-  /* radius */
-  --rx:8px; --rm:14px; --rl:20px; --rxl:28px; --rf:999px;
-  --topbar-h:60px;
+:root,[data-theme="light"]{
+  --bg:#eef1f6; --bg2:#e3e8f0;
+  --glass:rgba(255,255,255,.55); --glass-brd:rgba(255,255,255,.65);
+  --card:rgba(255,255,255,.5); --card-brd:rgba(140,150,180,.22);
+  --text:#1b1f2b; --mu:#5b6172; --faint:#9aa0b2;
+  --blue:#2f6fed; --teal:#0ea5a0; --green:#2e9e5b; --pink:#e0507a; --gold:#d59a1f; --gold-g:rgba(213,154,31,.15);
+  --shadow:0 8px 32px rgba(31,41,71,.10);
 }
-[data-theme=dark]{
-  --g1:rgba(255,255,255,.072);
-  --g2:rgba(255,255,255,.048);
-  --g3:rgba(255,255,255,.028);
-  --g4:rgba(255,255,255,.012);
-  --gb:rgba(255,255,255,.14);
-  --gb2:rgba(255,255,255,.08);
-  --gb3:rgba(255,255,255,.04);
-  --gs:0 8px 32px rgba(0,0,0,.48),0 1.5px 0 rgba(255,255,255,.08) inset,0 -1px 0 rgba(0,0,0,.32) inset;
-  --gs-lg:0 20px 60px rgba(0,0,0,.56),0 2px 0 rgba(255,255,255,.08) inset;
-  --gs-xl:0 28px 80px rgba(0,0,0,.64),0 2px 0 rgba(255,255,255,.1) inset;
-
-  --bg-a:#080d18; --bg-b:#0d0818; --bg-c:#060f10;
-  --tx:#e2e8f4; --mu:#7a84a8; --fa:#282e44; --fa2:#1a1e30;
-
-  --blue:#5aa8f0;   --blue-g:rgba(90,168,240,.16);
-  --green:#3ab870;  --green-g:rgba(58,184,112,.16);
-  --pink:#f06888;   --pink-g:rgba(240,104,136,.16);
-  --teal:#38c8c8;   --teal-g:rgba(56,200,200,.16);
-  --gold:#f0b438;   --gold-g:rgba(240,180,56,.16);
+[data-theme="dark"]{
+  --bg:#0d1017; --bg2:#141824;
+  --glass:rgba(30,34,46,.55); --glass-brd:rgba(255,255,255,.10);
+  --card:rgba(35,39,52,.48); --card-brd:rgba(255,255,255,.08);
+  --text:#e8eaf0; --mu:#9aa0b5; --faint:#5c6172;
+  --blue:#5b93ff; --teal:#3fd0c9; --green:#5cd485; --pink:#ff7fa3; --gold:#f0c04a; --gold-g:rgba(240,192,74,.15);
+  --shadow:0 8px 32px rgba(0,0,0,.35);
 }
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   BODY / BG MESH
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-body{
-  font-family:'Satoshi','Helvetica Neue',sans-serif;
-  min-height:100dvh; color:var(--tx); line-height:1.6; font-size:15px;
+*{box-sizing:border-box}
+html,*,*::before,*::after{transition:background-color .4s cubic-bezier(.4,0,.2,1),color .4s cubic-bezier(.4,0,.2,1),border-color .4s cubic-bezier(.4,0,.2,1),box-shadow .4s cubic-bezier(.4,0,.2,1)}
+body{margin:0;font-family:'Noto Sans TC',sans-serif;color:var(--text);
   background:
-    radial-gradient(ellipse 90% 70% at 15% 5%, color-mix(in oklch,var(--blue) 22%,transparent) 0%,transparent 65%),
-    radial-gradient(ellipse 65% 55% at 85% 15%, color-mix(in oklch,var(--teal) 18%,transparent) 0%,transparent 60%),
-    radial-gradient(ellipse 75% 55% at 45% 85%, color-mix(in oklch,var(--pink) 14%,transparent) 0%,transparent 60%),
-    radial-gradient(ellipse 55% 45% at 75% 70%, color-mix(in oklch,var(--gold) 10%,transparent) 0%,transparent 50%),
-    linear-gradient(150deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%);
-  background-attachment:fixed;
+    radial-gradient(ellipse 70% 50% at 15% 0%, color-mix(in oklch,var(--blue) 12%,transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 20%, color-mix(in oklch,var(--teal) 10%,transparent) 0%, transparent 60%),
+    linear-gradient(160deg,var(--bg),var(--bg2));
+  min-height:100vh;
 }
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   TOPBAR
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.topbar{
-  position:sticky;top:0;z-index:600;height:var(--topbar-h);
-  background:var(--g1);
-  backdrop-filter:blur(28px) saturate(2) brightness(1.04);
-  -webkit-backdrop-filter:blur(28px) saturate(2) brightness(1.04);
-  border-bottom:1px solid var(--gb);
-  box-shadow:0 1px 0 var(--gb2),0 4px 24px rgba(0,0,0,.09);
-  display:flex;align-items:center;justify-content:space-between;padding:0 28px;
-}
-.tb-brand{display:flex;align-items:center;gap:16px}
-.tb-logo{
-  font-size:18px;font-weight:900;letter-spacing:3px;
-  background:linear-gradient(135deg,var(--blue),var(--teal));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.tb-div{width:1px;height:22px;background:var(--gb)}
-.tb-sub{font-size:13px;color:var(--mu);font-weight:500}
-
-/* 主題切換按鈕 — 更大更明顯 */
-.theme-btn{
-  width:48px;height:48px;border-radius:var(--rf);cursor:pointer;
-  background:var(--g2);
-  backdrop-filter:blur(12px);
-  border:1.5px solid var(--gb);
-  box-shadow:var(--gs);
-  color:var(--tx);
-  display:flex;align-items:center;justify-content:center;
-  transition:transform var(--t1) var(--ease-spring), box-shadow var(--t2) var(--ease-out), background var(--t2) var(--ease-out);
-  will-change:transform;
-}
-.theme-btn:hover{transform:scale(1.1);box-shadow:var(--gs-lg);background:var(--g1)}
-.theme-btn:active{transform:scale(.88)!important;transition-duration:80ms}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   TAB NAV — 置中膠囊玻璃
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.tab-nav{
-  position:sticky;top:var(--topbar-h);z-index:500;
-  display:flex;justify-content:center;align-items:center;
-  padding:12px 20px;gap:6px;
-  background:var(--g2);
-  backdrop-filter:blur(22px) saturate(1.8);
-  -webkit-backdrop-filter:blur(22px) saturate(1.8);
-  border-bottom:1px solid var(--gb3);
-}
-.tab-pill-wrap{
-  display:flex;gap:4px;
-  background:var(--g3);
-  backdrop-filter:blur(12px);
-  border:1px solid var(--gb2);
-  border-radius:var(--rf);
-  padding:5px;
-  box-shadow:var(--gs);
-}
-.tab-btn{
-  display:flex;align-items:center;gap:8px;
-  padding:10px 22px;
-  border-radius:var(--rf);
-  border:none;
-  cursor:pointer;
-  font-size:14px;font-weight:600;
-  color:var(--mu);
-  background:transparent;
-  white-space:nowrap;
-  transition:color var(--t1) var(--ease-out),background var(--t2) var(--ease-out),
-    transform var(--t1) var(--ease-spring),box-shadow var(--t2) var(--ease-out);
-  will-change:transform;
-  position:relative;overflow:hidden;
-}
-.tab-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.04));
-  opacity:0;border-radius:var(--rf);
-  transition:opacity var(--t2) var(--ease-out);
-}
-.tab-btn:hover{color:var(--tx);transform:scale(1.03)}
-.tab-btn:hover::before{opacity:1}
-.tab-btn:active{transform:scale(.94)!important;transition-duration:80ms}
-.tab-btn.active{
-  color:var(--tx);font-weight:700;
-  background:var(--g1);
-  box-shadow:var(--gs);
-}
-.tab-btn.active::before{opacity:1}
-.tab-icon{font-size:15px}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   PAGES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.tab-page{display:none;padding:32px 28px 80px;max-width:1160px;margin:0 auto}
-.tab-page.active{display:block;animation:pageIn .45s var(--ease-out) both}
-@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   GLASS CARD
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.gc{
-  background:var(--g1);
-  backdrop-filter:blur(20px) saturate(1.6) brightness(1.02);
-  -webkit-backdrop-filter:blur(20px) saturate(1.6) brightness(1.02);
-  border:1px solid var(--gb);
-  border-radius:var(--rl);
-  box-shadow:var(--gs);
-  overflow:hidden;
-  transition:transform var(--t2) var(--ease-spring),box-shadow var(--t2) var(--ease-out),background var(--t2);
-  will-change:transform;
-}
-.gc:hover{transform:translateY(-4px);box-shadow:var(--gs-xl)}
-.gc-hd{
-  display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  padding:18px 24px;border-bottom:1px solid var(--gb3);
-  background:rgba(255,255,255,.025);
-}
-.gc-hd h3{font-size:16px;font-weight:700;letter-spacing:-.2px}
-.gc-hd p{font-size:13px;color:var(--mu);margin-top:3px}
-.gc-body{padding:22px 24px}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   PAGE HEADER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.ph{margin-bottom:32px}
-.ph-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ph h2{font-size:32px;font-weight:900;letter-spacing:-.5px;line-height:1.15}
-.ph p{font-size:15px;color:var(--mu);margin-top:4px}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   PILLS / BADGES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;
-  padding:4px 13px;border-radius:var(--rf);letter-spacing:.3px}
-.pill-blue{background:var(--blue-g);color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);
+  background:var(--glass);border-bottom:1px solid var(--glass-brd);}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px}
+.brand svg{width:26px;height:26px;color:var(--blue)}
+.nav{display:flex;gap:8px}
+.nav button{padding:9px 18px;border-radius:999px;border:1px solid transparent;background:transparent;
+  color:var(--mu);font-weight:700;font-size:14px;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1)}
+.nav button:hover{background:color-mix(in oklch,var(--blue) 10%,transparent);color:var(--text)}
+.nav button.active{background:var(--blue);color:#fff;box-shadow:0 4px 16px color-mix(in oklch,var(--blue) 40%,transparent)}
+.right{display:flex;align-items:center;gap:12px}
+.updated{font-size:12px;color:var(--faint)}
+#themeBtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--card-brd);background:var(--card);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px)}
+#themeBtn svg{width:18px;height:18px;color:var(--text)}
+#themeBtn:active{transform:scale(.9)}
+main{max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+.page{display:none;animation:fadeUp .5s cubic-bezier(.16,1,.3,1)}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ph h2{font-size:clamp(24px,3vw,32px);margin:4px 0 4px;font-weight:900}
+.ph p{color:var(--mu);margin:0 0 20px;font-size:14px}
+.pill{display:inline-block;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:700;
+  background:color-mix(in oklch,var(--blue) 16%,transparent);color:var(--blue)}
 .pill-gold{background:var(--gold-g);color:var(--gold)}
-.pill-green{background:var(--green-g);color:var(--green)}
-
-.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;
-  border-radius:var(--rf);white-space:nowrap;letter-spacing:.2px}
-.b-owner{background:var(--blue-g);color:var(--blue)}
-.b-design{background:var(--green-g);color:var(--green)}
-.b-other{background:var(--mu-g);color:var(--mu)}
-.b-purchase{background:var(--pink-g);color:var(--pink)}
-.b-learn{background:var(--teal-g);color:var(--teal)}
-
-.ann-chip{font-size:10px;font-weight:700;background:var(--gold-g);color:var(--gold);
-  padding:2px 8px;border-radius:4px;margin-left:5px;letter-spacing:.2px;vertical-align:middle}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   SECTION LABEL
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;
-  color:var(--mu);padding-bottom:12px;margin:36px 0 16px;
-  border-bottom:1px solid var(--gb3);
-  display:flex;align-items:center;gap:10px}
-.sec-badge{font-size:11px;font-weight:700;background:var(--blue-g);color:var(--blue);
-  padding:2px 10px;border-radius:var(--rf);letter-spacing:0;text-transform:none}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   GRIDS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-@media(max-width:800px){.g5{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   KPI CARD
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.kpi{
-  background:var(--g2);
-  backdrop-filter:blur(16px) saturate(1.6);
-  border:1px solid var(--gb2);
-  border-radius:var(--rm);
-  padding:20px 22px 18px;
-  border-top:3px solid var(--kc,var(--blue));
-  transition:transform var(--t2) var(--ease-spring),box-shadow var(--t2) var(--ease-out),background var(--t2);
-  will-change:transform;
-  cursor:default;
-}
-.kpi:hover{background:var(--g1);transform:translateY(-5px) scale(1.01);box-shadow:var(--gs-xl)}
-.kpi:active{transform:scale(.97)!important;transition-duration:80ms}
-.kpi-l{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;
-  color:var(--mu);margin-bottom:8px}
-.kpi-v{font-size:36px;font-weight:900;font-variant-numeric:tabular-nums;
-  line-height:1;color:var(--kc,var(--blue));letter-spacing:-1px}
-.kpi-s{font-size:13px;color:var(--mu);margin-top:7px;font-weight:500}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Q2 BANNER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.q2b{
-  background:linear-gradient(135deg,var(--blue-g),var(--teal-g),rgba(255,255,255,.02));
-  backdrop-filter:blur(16px);border:1px solid var(--gb2);
-  border-radius:var(--rl);padding:24px 28px;margin-bottom:28px;
-  transition:transform var(--t2) var(--ease-spring),box-shadow var(--t2);
-}
-.q2b:hover{transform:translateY(-3px);box-shadow:var(--gs-lg)}
-.q2b-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:20px;
-  display:flex;align-items:center;gap:8px}
-.q2b-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-@media(max-width:600px){.q2b-grid{grid-template-columns:repeat(2,1fr)}}
-.q2b-item{text-align:center}
-.q2b-v{font-size:40px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-1.5px}
-.q2b-l{font-size:13px;color:var(--mu);margin-top:5px;font-weight:600}
-.q2b-s{font-size:12px;color:var(--mu);margin-top:4px;line-height:1.6}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   TABLE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.tbl-scroll{overflow-x:auto}
+.sec{font-weight:800;font-size:15px;margin:28px 0 12px;color:var(--text)}
+.card{background:var(--card);border:1px solid var(--card-brd);border-radius:20px;padding:22px;
+  backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);box-shadow:var(--shadow);
+  transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease;position:relative;z-index:1;}
+.card:hover{transform:translateY(-3px)}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.g5,.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+.kpi{position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,color-mix(in oklch,var(--kc) 10%,transparent),transparent 60%)}
+.kpi-l{font-size:13px;color:var(--mu);font-weight:600;position:relative}
+.kpi-v{font-size:30px;font-weight:900;color:var(--kc);margin:6px 0 2px;position:relative;font-variant-numeric:tabular-nums}
+.kpi-s{font-size:12px;color:var(--faint);position:relative}
 table{width:100%;border-collapse:collapse;font-size:14px}
-thead th{
-  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
-  color:var(--mu);padding:13px 16px;text-align:left;white-space:nowrap;
-  border-bottom:1px solid var(--gb3);background:rgba(255,255,255,.02);
-}
-tbody tr{border-bottom:1px solid var(--gb3);
-  transition:background var(--t1) var(--ease-out)}
-tbody tr:hover{background:var(--g3)}
-tbody tr:last-child{border-bottom:none}
-td{padding:12px 16px;vertical-align:middle}
-.cd{font-size:13px;color:var(--mu);white-space:nowrap}
-.ct{font-size:12px;color:var(--mu);display:block;margin-top:1px}
-.cn{font-weight:700;white-space:nowrap;font-size:15px}
-.cc{font-size:13px;color:var(--mu);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cp{font-weight:800;text-align:center;font-variant-numeric:tabular-nums;font-size:15px}
-.cno{font-size:13px;color:var(--mu);max-width:240px;line-height:1.6}
-.cs{font-size:13px;white-space:nowrap;font-weight:600}
-
-/* diff arrows */
-.diff{font-size:13px;font-weight:700;white-space:nowrap}
+th{text-align:left;color:var(--mu);font-weight:700;font-size:12px;padding:10px 12px;border-bottom:1px solid var(--card-brd)}
+td{padding:11px 12px;border-bottom:1px solid var(--card-brd);vertical-align:top}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:color-mix(in oklch,var(--blue) 5%,transparent)}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.b-owner{background:color-mix(in oklch,var(--blue) 16%,transparent);color:var(--blue)}
+.b-design{background:color-mix(in oklch,var(--green) 16%,transparent);color:var(--green)}
+.b-other{background:color-mix(in oklch,var(--mu) 16%,transparent);color:var(--mu)}
+.b-learn{background:color-mix(in oklch,var(--teal) 16%,transparent);color:var(--teal)}
+.b-purchase{background:color-mix(in oklch,var(--pink) 16%,transparent);color:var(--pink)}
+.diff{font-weight:800;font-size:13px}
 .up{color:var(--green)}.dn{color:var(--pink)}.eq{color:var(--mu)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.f-btn{padding:8px 16px;border-radius:999px;border:1px solid var(--card-brd);background:var(--card);
+  color:var(--mu);font-weight:700;font-size:13px;cursor:pointer;backdrop-filter:blur(10px);transition:all .3s cubic-bezier(.16,1,.3,1)}
+.f-btn:hover{transform:translateY(-2px)}
+.f-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.month-block{margin-bottom:22px}
+.mb-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mb-hd h3{margin:0;font-size:17px;font-weight:800}
+.mb-hd p{margin:2px 0 0;font-size:13px;color:var(--mu)}
+.tbl-scroll{overflow-x:auto}
+.staff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.staff-card{background:var(--card);border:1px solid var(--card-brd);border-radius:16px;padding:16px;text-align:center;backdrop-filter:blur(14px)}
+.sc-name{font-weight:700;font-size:14px;color:var(--mu)}
+.sc-num{font-size:26px;font-weight:900;margin:6px 0 2px}
+.sc-l{font-size:12px;color:var(--faint)}
+.a-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.a-grid{grid-template-columns:1fr}}
+.a-card{position:relative}
+.a-card::before{content:'';position:absolute;top:0;left:22px;right:22px;height:3px;border-radius:0 0 4px 4px;background:var(--ac)}
+.a-tag{font-size:12px;font-weight:800;color:var(--ac);margin-bottom:6px}
+.a-title{font-weight:800;font-size:16px;margin-bottom:8px}
+.a-text{font-size:13.5px;color:var(--mu);line-height:1.7}
+.chart-wrap{position:relative;height:280px}
+.drop-wrap{position:relative}
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   STAFF CARDS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}
-.staff-card{
-  background:var(--g2);backdrop-filter:blur(14px);
-  border:1px solid var(--gb2);border-radius:var(--rm);
-  padding:20px;text-align:center;
-  transition:transform var(--t2) var(--ease-spring),box-shadow var(--t2),background var(--t2);
-  will-change:transform;cursor:default;
-}
-.staff-card:hover{background:var(--g1);transform:translateY(-5px) scale(1.02);box-shadow:var(--gs-xl)}
-.staff-card:active{transform:scale(.95)!important;transition-duration:80ms}
-.sc-name{font-weight:700;font-size:16px;margin-bottom:8px;letter-spacing:.3px}
-.sc-num{font-size:38px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
-.sc-l{font-size:13px;color:var(--mu);margin-top:4px}
+/* ⚠️ 修正重點：下拉按鈕改為深色背景 + 強制白色文字，任何主題下都清晰可讀 */
+.drop-btn{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:14px;
+  background:rgba(20,24,32,.9);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(18px) saturate(1.6);
+  cursor:pointer;font-weight:700;font-size:14px;min-width:190px;box-shadow:var(--shadow);
+  color:#fff !important;}
+.drop-btn svg{color:#fff !important;stroke:#fff !important}
+#db-icon,#db-label{color:#fff !important}
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   ANALYSIS CARDS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.a-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
-@media(max-width:640px){.a-grid{grid-template-columns:1fr}}
-.a-card{
-  background:var(--g1);backdrop-filter:blur(16px);
-  border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;
-  border-left:4px solid var(--ac,var(--blue));
-  box-shadow:var(--gs);
-  transition:transform var(--t2) var(--ease-spring),box-shadow var(--t2),background var(--t2);
-  will-change:transform;cursor:default;
-}
-.a-card:hover{transform:translateY(-5px);box-shadow:var(--gs-xl)}
-.a-card:active{transform:scale(.97)!important;transition-duration:80ms}
-.a-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;
-  color:var(--ac,var(--blue));margin-bottom:7px}
-.a-title{font-size:16px;font-weight:700;margin-bottom:9px;letter-spacing:-.2px}
-.a-text{font-size:14px;color:var(--mu);line-height:1.85}
+.drop-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:230px;border-radius:16px;
+  background:rgba(18,22,30,.92);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(28px) saturate(1.8);
+  box-shadow:0 20px 50px rgba(0,0,0,.45);padding:8px;display:none;z-index:9999;}
+.drop-menu.open{display:block;animation:fadeUp .25s cubic-bezier(.16,1,.3,1)}
+.drop-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;
+  color:#fff !important;font-size:13.5px;font-weight:600}
+.drop-item:hover,.drop-item.active{background:rgba(255,255,255,.10)}
+.drop-g-label{font-size:11px;color:rgba(255,255,255,.5);padding:8px 12px 4px;font-weight:700}
+.di-badge{margin-left:auto;font-size:11px;background:rgba(255,255,255,.14);color:#fff !important;padding:2px 8px;border-radius:999px}
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   CONV BARS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.conv-list{display:flex;flex-direction:column;gap:22px;padding:4px 0}
-.conv-row{display:flex;align-items:center;gap:16px}
-.conv-mo{width:52px;font-size:14px;font-weight:700;flex-shrink:0}
-.conv-track{flex:1;background:var(--gb3);border-radius:var(--rf);height:10px;overflow:hidden}
-.conv-fill{height:100%;border-radius:var(--rf);transition:width 1.6s var(--ease-out);width:0}
-.conv-pct{width:46px;font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;text-align:right}
-.conv-chip{font-size:11px;font-weight:700;padding:3px 11px;border-radius:var(--rf);flex-shrink:0}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   FILTER BTNS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.filter-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
-.f-btn{
-  padding:9px 20px;border-radius:var(--rf);
-  border:1.5px solid var(--gb2);
-  background:var(--g2);backdrop-filter:blur(12px);
-  cursor:pointer;font-size:13px;font-weight:600;color:var(--mu);
-  transition:transform var(--t1) var(--ease-spring),box-shadow var(--t2),background var(--t2),color var(--t1),border-color var(--t1);
-  will-change:transform;
-}
-.f-btn:hover{background:var(--g1);color:var(--tx);transform:scale(1.05);box-shadow:var(--gs)}
-.f-btn:active{transform:scale(.93)!important;transition-duration:80ms}
-.f-btn.active{background:var(--blue-g);color:var(--blue);
-  border-color:color-mix(in oklch,var(--blue) 35%,transparent);
-  box-shadow:0 0 0 3px var(--blue-g),var(--gs);
-  font-weight:700;transform:scale(1.02)}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   CUSTOM DROPDOWN
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.drop-wrap{position:relative;display:inline-block;min-width:240px}
-.drop-btn{
-  display:flex;align-items:center;gap:10px;
-  min-width:200px;
-  padding:11px 16px;border-radius:var(--rm);
-  background:var(--g1);
-  backdrop-filter:blur(18px) saturate(1.8);
-  -webkit-backdrop-filter:blur(18px) saturate(1.8);
-  border:1.5px solid var(--gb);
-  box-shadow:var(--gs);
-  cursor:pointer;color:var(--tx);font-size:14px;font-weight:600;
-  width:100%;justify-content:space-between;
-  transition:transform var(--t1) var(--ease-spring),box-shadow var(--t2),background var(--t2);
-  user-select:none;will-change:transform;
-}
-.drop-btn:hover{background:var(--g2);box-shadow:var(--gs-lg);transform:scale(1.01)}
-.drop-btn:active{transform:scale(.97)!important;transition-duration:80ms}
-.drop-btn.open{
-  border-radius:var(--rm) var(--rm) 0 0;
-  border-bottom-color:transparent;
-  box-shadow:var(--gs-xl);
-  transform:none;
-}
-.db-arrow{
-  width:18px;height:18px;flex-shrink:0;color:var(--mu);
-  transition:transform var(--t2) var(--ease-out);
-}
-.drop-btn.open .db-arrow{transform:rotate(180deg)}
-
-.drop-menu{
-  position:absolute;top:100%;left:0;right:0;z-index:9000;
-  background:var(--g1);
-  backdrop-filter:blur(28px) saturate(2.2) brightness(1.08);
-  -webkit-backdrop-filter:blur(28px) saturate(2.2) brightness(1.08);
-  border:1.5px solid var(--gb);border-top:none;
-  border-radius:0 0 var(--rm) var(--rm);
-  box-shadow:var(--gs-xl);
-  overflow:hidden;
-  max-height:0;opacity:0;pointer-events:none;
-  transition:max-height var(--t2) var(--ease-out),opacity var(--t2) var(--ease-out);
-}
-.drop-menu.open{max-height:400px;opacity:1;pointer-events:all}
-.drop-inner{overflow-y:auto;max-height:400px;padding:8px}
-
-.drop-g-label{
-  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;
-  color:var(--mu);padding:12px 14px 5px;
-  display:flex;align-items:center;gap:8px;
-}
-.drop-g-label::after{content:'';flex:1;height:1px;background:var(--gb3)}
-
-.drop-item{
-  display:flex;align-items:center;gap:12px;
-  padding:10px 14px;border-radius:var(--rx);cursor:pointer;
-  font-size:14px;color:var(--mu);font-weight:500;
-  transition:background var(--t1),color var(--t1),transform var(--t1) var(--ease-spring);
-  will-change:transform;
-  position:relative;
-}
-.drop-item:hover{background:var(--g2);color:var(--tx);transform:scale(1.01)}
-.drop-item:active{transform:scale(.96)!important;transition-duration:60ms}
-.drop-item.active{
-  background:var(--blue-g);color:var(--blue);font-weight:700;
-}
-.drop-item.active::before{
-  content:'';position:absolute;left:0;top:22%;bottom:22%;
-  width:3px;background:var(--blue);border-radius:0 2px 2px 0;
-}
-.drop-item .di-icon{font-size:15px;flex-shrink:0;opacity:.85}
-.drop-item .di-label{flex:1}
-.drop-item .di-badge{
-  font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--rf);
-  background:var(--gb3);color:var(--mu);
-}
-.drop-item.active .di-badge{background:var(--blue-g);color:var(--blue)}
-.drop-item.disabled{opacity:.35;cursor:default;pointer-events:none}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   CHART BOXES — 限制高度
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.chart-box{height:200px;position:relative}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   SRC LAYOUT — Donut 縮小 + 橫排
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.src-layout{
-  display:grid;
-  grid-template-columns:130px 1fr;
-  align-items:center;
-  gap:28px;
-}
-.src-donut-wrap{width:130px;height:130px;flex-shrink:0}
-.src-bars{display:flex;flex-direction:column;gap:22px;padding:4px 0;min-width:0;width:100%}
-.src-row{display:flex;align-items:center;gap:14px}
-.src-label{width:68px;font-size:14px;color:var(--mu);flex-shrink:0;font-weight:600}
-.src-track{flex:1;background:var(--gb3);border-radius:6px;height:14px;overflow:hidden;min-width:60px}
-.src-fill{height:100%;border-radius:6px;transition:width 1.2s cubic-bezier(.16,1,.3,1);width:0}
-.src-num{width:28px;font-size:16px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   COUNT ANIM
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.cn-anim{display:inline-block;font-variant-numeric:tabular-nums}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   STAGGER ENTRY ANIMATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.stagger>*{
-  opacity:0;transform:translateY(16px);
-  animation:cardIn .5s var(--ease-out) forwards;
-}
-.stagger>*:nth-child(1){animation-delay:.04s}
-.stagger>*:nth-child(2){animation-delay:.10s}
-.stagger>*:nth-child(3){animation-delay:.16s}
-.stagger>*:nth-child(4){animation-delay:.22s}
-.stagger>*:nth-child(5){animation-delay:.28s}
-@keyframes cardIn{to{opacity:1;transform:none}}
-
-/* theme transition handled by overlay */
-
-/* ── Dropdown 重設：absolute 相對定位，不依賴 fixed ── */
-.drop-wrap{position:relative !important; overflow:visible !important; z-index:100 !important}
-.drop-menu{
-  position:absolute !important;
-  top:calc(100% + 6px) !important;
-  right:0 !important;
-  left:auto !important;
-  min-width:280px !important;
-  z-index:9999 !important;
-  /* 深色玻璃底 — 確保文字可讀 */
-  background:rgba(18,22,30,.82) !important;
-  backdrop-filter:blur(28px) saturate(1.8) brightness(.95) !important;
-  -webkit-backdrop-filter:blur(28px) saturate(1.8) brightness(.95) !important;
-  border:1px solid rgba(255,255,255,.13) !important;
-  border-radius:14px !important;
-  box-shadow:0 20px 60px rgba(0,0,0,.45),0 4px 16px rgba(0,0,0,.3) !important;
-  padding:8px !important;
-  max-height:0;opacity:0;pointer-events:none;overflow:hidden !important;
-  transition:max-height .32s cubic-bezier(.16,1,.3,1),opacity .22s ease,transform .3s cubic-bezier(.16,1,.3,1) !important;
-  transform:translateY(-8px) scale(.97) !important;
-  transform-origin:top right !important;
-}
-.drop-menu.open{
-  max-height:460px !important;opacity:1 !important;pointer-events:all !important;
-  transform:translateY(0) scale(1) !important;overflow-y:auto !important;
-}
-.drop-menu::-webkit-scrollbar{width:4px}
-.drop-menu::-webkit-scrollbar-track{background:transparent}
-.drop-menu::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
-/* 強制選單內文字清晰 */
-.drop-menu .drop-g-label{color:rgba(255,255,255,.42) !important;font-size:11px !important;font-weight:700 !important;letter-spacing:.08em !important;text-transform:uppercase !important;padding:8px 10px 4px !important}
-.drop-menu .drop-item{border-radius:9px !important;padding:9px 12px !important;display:flex !important;align-items:center !important;gap:10px !important;cursor:pointer !important;transition:background .15s ease !important}
-.drop-menu .drop-item:not(.disabled):hover{background:rgba(255,255,255,.1) !important}
-.drop-menu .drop-item.active{background:rgba(100,180,255,.18) !important}
-.drop-menu .drop-item.disabled{opacity:.38 !important;cursor:default !important}
-.drop-menu .di-icon{font-size:15px !important}
-.drop-menu .di-label{flex:1 !important;font-size:14px !important;font-weight:500 !important;color:rgba(255,255,255,.88) !important}
-.drop-menu .di-badge{font-size:12px !important;font-weight:700 !important;color:rgba(255,255,255,.5) !important;background:rgba(255,255,255,.09) !important;border-radius:6px !important;padding:2px 7px !important}
-/* src-card 整體不裁切 */
-.src-card,.src-card-hd,.src-card-body,.src-layout{overflow:visible !important}
-
-/* ── 圓餅圖 wrapper：overflow visible，給 tooltip 空間 ── */
-.src-donut-wrap{
-  overflow:visible !important;
-  padding:12px !important;
-  margin:-12px !important;
-}
-
-
-/* ── 絲滑日夜切換 ── */
-.theme-changing,.theme-changing *,.theme-changing *::before,.theme-changing *::after{
-  transition:
-    color .38s cubic-bezier(.4,0,.2,1),
-    background-color .42s cubic-bezier(.4,0,.2,1),
-    background .42s cubic-bezier(.4,0,.2,1),
-    border-color .38s cubic-bezier(.4,0,.2,1),
-    box-shadow .38s cubic-bezier(.4,0,.2,1)
-  !important;
-}
-
+.src-card-outer{position:relative;z-index:200;isolation:isolate;}
+.src-layout{display:grid;grid-template-columns:130px 1fr;align-items:center;gap:28px}
+@media(max-width:640px){.src-layout{grid-template-columns:1fr}}
+.src-row{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.src-label{width:64px;font-size:14px;color:var(--mu);font-weight:600;flex-shrink:0}
+.src-track{flex:1;background:color-mix(in oklch,var(--text) 8%,transparent);border-radius:7px;height:14px;overflow:hidden;min-width:60px}
+.src-fill{height:100%;border-radius:7px;transition:width 1.2s cubic-bezier(.16,1,.3,1);width:0}
+.src-num{width:28px;font-size:16px;font-weight:800;text-align:right}
+.ann-chip{font-size:10px;background:var(--gold-g);color:var(--gold);padding:2px 6px;border-radius:999px;margin-left:6px;font-weight:700}
+.stagger>*{animation:fadeUp .5s cubic-bezier(.16,1,.3,1) backwards}
+.stagger>*:nth-child(1){animation-delay:.02s}.stagger>*:nth-child(2){animation-delay:.06s}
+.stagger>*:nth-child(3){animation-delay:.10s}.stagger>*:nth-child(4){animation-delay:.14s}.stagger>*:nth-child(5){animation-delay:.18s}
 </style>
 </head>
 <body>
 
-<style>
-/* ── src-card：玻璃卡片但不 overflow:hidden ── */
-.src-card{
-  background:var(--g1);
-  backdrop-filter:blur(20px) saturate(1.6);
-  -webkit-backdrop-filter:blur(20px) saturate(1.6);
-  border:1px solid var(--gb);
-  border-radius:var(--rl);
-  box-shadow:var(--gs);
-  margin-bottom:20px;
-  transition:transform var(--t2) var(--ease-spring),box-shadow var(--t2);
-}
-.src-card:hover{transform:translateY(-4px);box-shadow:var(--gs-xl)}
-.src-card-hd{position:relative !important;overflow:visible !important;
-  display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  padding:18px 24px;border-bottom:1px solid var(--gb3);
-  background:rgba(255,255,255,.025);
-  border-radius:var(--rl) var(--rl) 0 0;
-}
-.src-card-hd h3{font-size:16px;font-weight:700}
-.src-card-hd p{font-size:13px;color:var(--mu);margin-top:3px}
-.src-card-body{padding:22px 24px}
-
-/* ── gc 移除 overflow:hidden（讓其他卡片 hover shadow 不被裁） ── */
-.gc{overflow:visible}
-.gc .tbl-scroll{overflow-x:auto}
-
-/* ── FIXED dropdown portal ── */
-.drop-menu-fixed{
-  position:fixed;
-  z-index:99999;
-  min-width:260px;
-  background:var(--g1);
-  backdrop-filter:blur(32px) saturate(2.4) brightness(1.1);
-  -webkit-backdrop-filter:blur(32px) saturate(2.4) brightness(1.1);
-  border:1.5px solid var(--gb);
-  border-radius:var(--rm);
-  box-shadow:var(--gs-xl);
-  padding:8px;
-  max-height:0;opacity:0;pointer-events:none;overflow:hidden;
-  transition:max-height var(--t2) var(--ease-out),opacity var(--t2) var(--ease-out),transform var(--t2) var(--ease-spring);
-  transform:translateY(-6px) scale(.98);
-  transform-origin:top right;
-}
-.drop-menu-fixed.open{
-  max-height:440px;opacity:1;pointer-events:all;
-  transform:translateY(0) scale(1);overflow-y:auto;
-}
-.drop-menu-fixed::-webkit-scrollbar{width:4px}
-.drop-menu-fixed::-webkit-scrollbar-track{background:transparent}
-.drop-menu-fixed::-webkit-scrollbar-thumb{background:var(--gb2);border-radius:2px}
-</style>
-
-
-<header class="topbar">
-  <div class="tb-brand">
-    <span class="tb-logo">BAKER</span>
-    <div class="tb-div"></div>
-    <span class="tb-sub">台中門市・訪客月報 2026</span>
+<div class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6"/></svg>
+    BAKER 訪客儀表板
   </div>
-  <button class="theme-btn" id="themeBtn" aria-label="切換日夜模式">
-    <svg id="themeIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-  </button>
-</header>
+  <div class="nav">
+    <button class="ac
 
-<nav class="tab-nav">
-  <div class="tab-pill-wrap">
-    <button class="tab-btn active" id="tb-overview" onclick="showTab('overview')">
-      <span class="tab-icon">📊</span>月報總覽
-    </button>
-    <button class="tab-btn" id="tb-trend" onclick="showTab('trend')">
-      <span class="tab-icon">📈</span>趨勢分析
-    </button>
-    <button class="tab-btn" id="tb-detail" onclick="showTab('detail')">
-      <span class="tab-icon">📋</span>訪客明細
-    </button>
-    <button class="tab-btn" id="tb-analysis" onclick="showTab('analysis')">
-      <span class="tab-icon">💡</span>分析報告
-    </button>
-  </div>
-</nav>
+Read Frog
 
-<main class="tab-page active" id="tab-overview">
-  <div class="ph">
-    <div class="ph-row">
-      <span class="pill pill-gold">🎂 周年慶月 2026/06</span>
-      <span class="pill pill-blue">最新月報</span>
-    </div>
-    <h2>六月月報總覽</h2>
-    <p>BAKER 台中門市・2026 年六月完整數據・Q2 季度匯總</p>
-  </div>
 
-  <div class="sec">六月當月 KPI</div>
-  <div class="g5 stagger" style="margin-bottom:24px">
-    <div class="kpi" style="--kc:var(--blue)">
-      <div class="kpi-l">訪客次數</div>
-      <div class="kpi-v"><span class="cn-anim" data-t="12">0</span></div>
-      <div class="kpi-s">筆記錄</div>
-    </div>
-    <div class="kpi" style="--kc:var(--teal)">
-      <div class="kpi-l">總人數</div>
-      <div class="kpi-v"><span class="cn-anim" data-t="25">0</span></div>
-      <div class="kpi-s">人到訪</div>
-    </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-l">業主來訪</div>
-      <div class="kpi-v"><span class="cn-anim" data-t="7">0</span></div>
-      <div class="kpi-s">次・17 人</div>
-    </div>
-    <div class="kpi" style="--kc:var(--pink)">
-      <div class="kpi-l">設計公司</div>
-      <div class="kpi-v"><span class="cn-anim" data-t="3">0</span></div>
-      <div class="kpi-s">次・5 人</div>
-    </div>
-    <div class="kpi" style="--kc:var(--gold)">
-      <div class="kpi-l">配案占比</div>
-      <div class="kpi-v" style="font-size:32px">67%</div>
-      <div class="kpi-s">🔥 高意願</div>
-    </div>
-  </div>
-
-  <div class="sec">Q2 季度匯總</div>
-  <div class="q2b">
-    <div class="q2b-title">📦 Q2（四月—六月）累計</div>
-    <div class="q2b-grid stagger">
-      <div class="q2b-item">
-        <div class="q2b-v" style="color:var(--blue)">25</div>
-        <div class="q2b-l">總訪次（筆）</div>
-        <div class="q2b-s">Apr 6 · May 7 · Jun 12</div>
-      </div>
-      <div class="q2b-item">
-        <div class="q2b-v" style="color:var(--teal)">58</div>
-        <div class="q2b-l">總人數（人）</div>
-        <div class="q2b-s">Apr 16 · May 17 · Jun 25</div>
-      </div>
-      <div class="q2b-item">
-        <div class="q2b-v" style="color:var(--green)">15</div>
-        <div class="q2b-l">業主來訪（次）</div>
-        <div class="q2b-s">Apr 4 · May 4 · Jun 7</div>
-      </div>
-      <div class="q2b-item">
-        <div class="q2b-v" style="color:var(--pink)">14</div>
-        <div class="q2b-l">配案採購（筆）</div>
-        <div class="q2b-s">Q2 整體 56% 配案占比</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec">五月 VS 六月</div>
-  <div class="gc" style="margin-bottom:28px">
-    <div class="gc-hd"><div><h3>月份比較</h3><p>主要指標逐項對照</p></div></div>
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>指標</th><th>五月</th><th>六月</th><th>變化</th></tr></thead>
-        <tbody>
-          <tr><td>訪客次數（筆）</td><td>7</td><td>12</td><td><span class="diff up">↑ +5</span></td></tr>
-          <tr><td>總人數（人）</td><td>17</td><td>25</td><td><span class="diff up">↑ +8</span></td></tr>
-          <tr><td>業主（次）</td><td>4</td><td>7</td><td><span class="diff up">↑ +3</span></td></tr>
-          <tr><td>業主人數（人）</td><td>7</td><td>17</td><td><span class="diff up">↑ +10</span></td></tr>
-          <tr><td>設計公司（次）</td><td>3</td><td>3</td><td><span class="diff eq">— 平</span></td></tr>
-          <tr><td>設計公司人數（人）</td><td>10</td><td>5</td><td><span class="diff dn">↓ −5</span></td></tr>
-          <tr><td>配案採購（筆）</td><td>4</td><td>8</td><td><span class="diff up">↑ +4</span></td></tr>
-          <tr><td>配案占比</td><td>57%</td><td>67%</td><td><span class="diff up">↑ +10%</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="sec">六月接待人員</div>
-  <div class="staff-grid stagger">
-    <div class="staff-card"><div class="sc-name">Cindy</div><div class="sc-num" style="color:var(--blue)">8</div><div class="sc-l">次接待</div></div>
-    <div class="staff-card"><div class="sc-name">Kelvin</div><div class="sc-num" style="color:var(--green)">2</div><div class="sc-l">次接待</div></div>
-    <div class="staff-card"><div class="sc-name">Daniel</div><div class="sc-num" style="color:var(--pink)">1</div><div class="sc-l">次接待</div></div>
-    <div class="staff-card"><div class="sc-name">Sean</div><div class="sc-num" style="color:var(--mu)">1</div><div class="sc-l">次接待</div></div>
-  </div>
-</main>
-
-<main class="tab-page" id="tab-trend">
-  <div class="ph">
-    <div class="ph-row"><span class="pill pill-blue">Q2 趨勢</span></div>
-    <h2>趨勢分析</h2>
-    <p>人次組成・配案占比・來源分布（可切換月份 ／ 季度 ／ 總累積）</p>
-  </div>
-
-  <!-- 來源分布 — 注意：外層不用 gc（避免 overflow:hidden 裁切 dropdown） -->
-  <div class="sec">來源分布<span id="src-badge" class="sec-badge">Q2 累計</span></div>
-  <div class="src-card">
-    <div class="src-card-hd">
-      <div><h3>來源分布</h3><p>業主 ／ 設計公司 ／ 其他 次數比例</p></div>
-      <!-- Dropdown：btn 用於計算位置，menu 用 fixed -->
-      <div class="drop-wrap" id="srcDropWrap">
-        <div class="drop-btn" id="srcDropBtn" onclick="toggleDrop(event)">
-          <span id="db-icon" style="font-size:16px">📦</span>
-          <span id="db-label" style="flex:1;text-align:left;font-size:14px">Q2 累計（四—六月）</span>
-          <svg class="db-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="drop-menu" id="srcDropMenu">
-
-    <div class="drop-g-label">月份</div>
-    <div class="drop-item" data-key="apr" onclick="selectDrop(this)">
-      <span class="di-icon">📅</span><span class="di-label">四月</span><span class="di-badge">6筆</span>
-    </div>
-    <div class="drop-item" data-key="may" onclick="selectDrop(this)">
-      <span class="di-icon">📅</span><span class="di-label">五月</span><span class="di-badge">7筆</span>
-    </div>
-    <div class="drop-item" data-key="jun" onclick="selectDrop(this)">
-      <span class="di-icon">🎂</span><span class="di-label">六月・周年慶</span><span class="di-badge">12筆</span>
-    </div>
-    <div class="drop-g-label">季度</div>
-    <div class="drop-item disabled"><span class="di-icon">📦</span><span class="di-label">Q1（一—三月）</span><span class="di-badge">尚無</span></div>
-    <div class="drop-item active" data-key="q2" onclick="selectDrop(this)">
-      <span class="di-icon">📦</span><span class="di-label">Q2（四—六月）</span><span class="di-badge">25筆</span>
-    </div>
-    <div class="drop-item disabled"><span class="di-icon">📦</span><span class="di-label">Q3（七—九月）</span><span class="di-badge">尚無</span></div>
-    <div class="drop-item disabled"><span class="di-icon">📦</span><span class="di-label">Q4（十—十二月）</span><span class="di-badge">尚無</span></div>
-    <div class="drop-g-label">總累積</div>
-    <div class="drop-item" data-key="ytd" onclick="selectDrop(this)">
-      <span class="di-icon">📊</span><span class="di-label">全年累積（YTD）</span><span class="di-badge">= Q2</span>
-    </div>
-  
-        </div>
-      </div>
-    <div class="src-card-body">
-      <div style="display:grid;grid-template-columns:140px 1fr;align-items:center;gap:32px;width:100%;box-sizing:border-box;">
-        <div style="width:140px;height:140px;flex-shrink:0;padding:8px;overflow:visible;">
-          <canvas id="srcDonut"></canvas>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:20px;flex:1;min-width:0;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="width:64px;font-size:14px;color:var(--mu);font-weight:600;flex-shrink:0;">業主</span>
-            <div style="flex:1;background:var(--gb3);border-radius:7px;height:14px;overflow:hidden;min-width:80px;">
-              <div id="sf-o" style="height:100%;border-radius:7px;background:var(--blue);width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);"></div>
-            </div>
-            <span id="sn-o" style="width:28px;font-size:16px;font-weight:800;text-align:right;color:var(--blue);">15</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="width:64px;font-size:14px;color:var(--mu);font-weight:600;flex-shrink:0;">設計公司</span>
-            <div style="flex:1;background:var(--gb3);border-radius:7px;height:14px;overflow:hidden;min-width:80px;">
-              <div id="sf-d" style="height:100%;border-radius:7px;background:var(--green);width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);"></div>
-            </div>
-            <span id="sn-d" style="width:28px;font-size:16px;font-weight:800;text-align:right;color:var(--green);">7</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="width:64px;font-size:14px;color:var(--mu);font-weight:600;flex-shrink:0;">其他</span>
-            <div style="flex:1;background:var(--gb3);border-radius:7px;height:14px;overflow:hidden;min-width:80px;">
-              <div id="sf-x" style="height:100%;border-radius:7px;background:var(--mu);width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);"></div>
-            </div>
-            <span id="sn-x" style="width:28px;font-size:16px;font-weight:800;text-align:right;color:var(--mu);">3</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Dropdown FIXED portal — 掛在 body 層級 -->
-  
-
-  <!-- 兩欄圖表 -->
-  <div class="g2" style="margin-bottom:20px">
-    <div class="gc">
-      <div class="gc-hd"><div><h3>每月人次組成</h3><p>業主 + 設計公司 + 其他（人）</p></div></div>
-      <div class="gc-body"><div class="chart-box"><canvas id="stackChart"></canvas></div></div>
-    </div>
-    <div class="gc">
-      <div class="gc-hd"><div><h3>到訪次數比較</h3><p>業主 vs 設計公司（次）</p></div></div>
-      <div class="gc-body"><div class="chart-box"><canvas id="typeChart"></canvas></div></div>
-    </div>
-  </div>
-
-  <!-- 配案轉換率 -->
-  <div class="sec">配案採購轉換率</div>
-  <div class="gc">
-    <div class="gc-hd"><div><h3>配案占比歷史</h3><p>配案採購筆數 ÷ 當月訪次　＞40% 為高意願</p></div></div>
-    <div class="gc-body">
-      <div class="conv-list">
-        <div class="conv-row">
-          <span class="conv-mo" style="color:var(--mu)">四月</span>
-          <div class="conv-track"><div class="conv-fill" style="background:var(--mu)" data-w="33"></div></div>
-          <span class="conv-pct" style="color:var(--mu)">33%</span>
-          <span class="conv-chip" style="background:var(--gb3);color:var(--mu)">一般</span>
-        </div>
-        <div class="conv-row">
-          <span class="conv-mo" style="color:var(--green)">五月</span>
-          <div class="conv-track"><div class="conv-fill" style="background:var(--green)" data-w="57"></div></div>
-          <span class="conv-pct" style="color:var(--green)">57%</span>
-          <span class="conv-chip" style="background:var(--green-g);color:var(--green)">高意願</span>
-        </div>
-        <div class="conv-row">
-          <span class="conv-mo" style="color:var(--gold)">六月</span>
-          <div class="conv-track"><div class="conv-fill" style="background:var(--gold)" data-w="67"></div></div>
-          <span class="conv-pct" style="color:var(--gold)">67%</span>
-          <span class="conv-chip" style="background:var(--gold-g);color:var(--gold)">高意願 🔥</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
-
-<main class="tab-page" id="tab-detail">
-  <div class="ph">
-    <div class="ph-row"><span class="pill pill-blue">完整記錄</span></div>
-    <h2>訪客明細</h2>
-    <p>2026 年四月—六月・共 25 筆完整到訪記錄</p>
-  </div>
-  <div class="filter-row" id="mf">
-    <button class="f-btn active" data-m="all">全部（23筆）</button>
-    <button class="f-btn" data-m="04">四月（6筆）</button>
-    <button class="f-btn" data-m="05">五月（7筆）</button>
-    <button class="f-btn" data-m="06">六月（12筆）🎂</button>
-  </div>
-
-  <div class="gc month-block" data-m="04" style="margin-bottom:18px">
-    <div class="gc-hd"><div><h3>四月</h3><p>6 筆・16 人・業主 4 次・設計 1 次・其他 1 次・配案 33%</p></div><span class="pill pill-blue">Apr</span></div>
-    <div class="tbl-scroll">
-      <table><thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody><tr><td class="cd">04/15<br><span class="ct">10:00</span></td><td class="cn">廖嶸</td><td><span class="badge b-design">設計公司</span></td><td class="cc">崢嶸設計</td><td class="cp">4</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">設計師與業主商談商機・業主建案：精銳市政廳</td><td class="cs">Aaron</td></tr>
-<tr><td class="cd">04/08<br><span class="ct">17:15</span></td><td class="cn">許小姐</td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">4</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">喜歡MCGUIRE、木頭、有紋理感・地區：台灣、澳洲墨爾本</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">04/22<br><span class="ct">15:45</span></td><td class="cn">麗舍執行副總</td><td><span class="badge b-other">其他</span></td><td class="cc">—</td><td class="cp">3</td><td><span class="badge b-other">其他</span></td><td class="cno">台北麗舍展廳異業合作機會</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">04/29<br><span class="ct">11:00</span></td><td class="cn">陳淑慧小姐</td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">2</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">喜歡TP邊櫃、需求：單椅邊几</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">04/30<br><span class="ct">15:30</span></td><td class="cn">徐太太</td><td><span class="badge b-owner">業主</span></td><td class="cc">緯邁設計</td><td class="cp">1</td><td><span class="badge b-other">其他</span></td><td class="cno">付尾款，喜歡BXG邊櫃</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">04/30<br><span class="ct">13:30</span></td><td class="cn">張先生</td><td><span class="badge b-owner">業主</span></td><td class="cc">帝谷設計</td><td class="cp">2</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">大件家具現貨，其餘或可等期貨・北屯自地自建、坪數大</td><td class="cs">Kelvin</td></tr>
-</tbody></table>
-    </div>
-  </div>
-
-  <div class="gc month-block" data-m="05" style="margin-bottom:18px">
-    <div class="gc-hd"><div><h3>五月</h3><p>7 筆・17 人・業主 4 次・設計 3 次・配案 57%</p></div><span class="pill pill-blue">May</span></div>
-    <div class="tbl-scroll">
-      <table><thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody><tr><td class="cd">05/07<br><span class="ct">13:30</span></td><td class="cn">李小姐</td><td><span class="badge b-owner">業主</span></td><td class="cc">水相設計</td><td class="cp">3</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">台北至仁愛路</td><td class="cs">Daniel</td></tr>
-<tr><td class="cd">05/08<br><span class="ct">09:30</span></td><td class="cn">廖嶸</td><td><span class="badge b-design">設計公司</span></td><td class="cc">崢嶸設計</td><td class="cp">3</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">設計師與業主商談商機・業主建案：精銳市政廳</td><td class="cs">Aaron</td></tr>
-<tr><td class="cd">05/08<br><span class="ct">10:30</span></td><td class="cn">張瓊文</td><td><span class="badge b-design">設計公司</span></td><td class="cc">雲頂設計</td><td class="cp">1</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">—</td><td class="cs">Aaron</td></tr>
-<tr><td class="cd">05/14<br><span class="ct">17:00</span></td><td class="cn">江屘菊</td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">1</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">江老師新家客廳配置，折扣品為主</td><td class="cs">Kelvin / Honnon</td></tr>
-<tr><td class="cd">05/21<br><span class="ct">10:00</span></td><td class="cn">江屘菊</td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">1</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">江老師確認品項及新品參觀</td><td class="cs">Kelvin / Honnon</td></tr>
-<tr><td class="cd">05/28<br><span class="ct">13:30</span></td><td class="cn">吉日設計</td><td><span class="badge b-design">設計公司</span></td><td class="cc">吉日設計</td><td class="cp">6</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">業主有了解過Baker，設計公司先來店參訪</td><td class="cs">Kelvin / Honnon</td></tr>
-<tr><td class="cd">05/29<br><span class="ct">17:00</span></td><td class="cn">吳先生</td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">2</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">訂製為主，8月會入住</td><td class="cs">Kelvin / Honnon</td></tr>
-</tbody></table>
-    </div>
-  </div>
-
-  <div class="gc month-block" data-m="06">
-    <div class="gc-hd"><div><h3>六月 🎂 周年慶</h3><p>12 筆・25 人・業主 7 次・設計 3 次・其他 2 次・配案 67%</p></div><span class="pill pill-gold">Jun</span></div>
-    <div class="tbl-scroll">
-      <table><thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody><tr><td class="cd">06/03<br><span class="ct">10:30</span></td><td class="cn">何佳憲 <span class="ann-chip">周年慶</span></td><td><span class="badge b-other">其他</span></td><td class="cc">古典音樂台</td><td class="cp">1</td><td><span class="badge b-other">其他</span></td><td class="cno">異業合作參觀</td><td class="cs">Sean</td></tr>
-<tr><td class="cd">06/04<br><span class="ct">14:00</span></td><td class="cn">廖嶸</td><td><span class="badge b-design">設計公司</span></td><td class="cc">崢嶸設計</td><td class="cp">2</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">—</td><td class="cs">Kelvin</td></tr>
-<tr><td class="cd">06/16<br><span class="ct">14:30</span></td><td class="cn">馬小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">2</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">想趁周年慶活動更換家具・百達富裔、雲林皆有住所</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/17<br><span class="ct">14:00</span></td><td class="cn">邱先生 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">待確認</td><td class="cp">4</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">想汰換家具・住所在美術館附近，待設計師回國後約</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/17<br><span class="ct">14:30</span></td><td class="cn">Frances Wu <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">1</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">飾品類為主</td><td class="cs">Daniel</td></tr>
-<tr><td class="cd">06/18<br><span class="ct">10:30</span></td><td class="cn">邱小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">1</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">—</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/21<br><span class="ct">14:50</span></td><td class="cn">莊小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-design">設計公司</span></td><td class="cc">吉日設計</td><td class="cp">2</td><td><span class="badge b-learn">了解品牌</span></td><td class="cno">床組為主，渲染圖未出還在挑選家具中</td><td class="cs">Kelvin / Honnon</td></tr>
-<tr><td class="cd">06/19<br><span class="ct">13:20</span></td><td class="cn">邱小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">—</td><td class="cp">3</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">—</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/22<br><span class="ct">17:00</span></td><td class="cn">邱先生 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">上境設計</td><td class="cp">5</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">石岡山區，10月交貨</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/25<br><span class="ct">17:00</span></td><td class="cn">張先生 <span class="ann-chip">周年慶</span></td><td><span class="badge b-other">其他</span></td><td class="cc">—</td><td class="cp">2</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">沙發單椅床組・Sean朋友</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/29<br><span class="ct">14:00</span></td><td class="cn">大易設計 <span class="ann-chip">周年慶</span></td><td><span class="badge b-design">設計公司</span></td><td class="cc">大易設計</td><td class="cp">1</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">單椅，10月份交貨</td><td class="cs">Cindy</td></tr>
-<tr><td class="cd">06/29<br><span class="ct">15:30</span></td><td class="cn">王小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td class="cc">大易設計</td><td class="cp">1</td><td><span class="badge b-purchase">配案採購</span></td><td class="cno">單椅，10月份交貨・寶璽天睿，喜歡McGire系列</td><td class="cs">Cindy</td></tr>
-</tbody></table>
-    </div>
-  </div>
-</main>
-
-<main class="tab-page" id="tab-analysis">
-  <div class="ph">
-    <div class="ph-row"><span class="pill pill-gold">🎂 六月洞察</span></div>
-    <h2>分析報告</h2>
-    <p>六月客觀趨勢觀察・Q2 季度回顧・接待業務概況</p>
-  </div>
-
-  <div class="sec">六月市場觀察</div>
-  <div class="a-grid stagger">
-    <div class="a-card" style="--ac:var(--gold)">
-      <div class="a-tag">🎂 周年慶效應</div>
-      <div class="a-title">業主到訪人次大幅提升</div>
-      <div class="a-text">六月業主人次 17 人，高於五月 7 人。配案 8 筆，占比 67%，顯示周年慶期間業主購買意願顯著提升。馬小姐、邱先生等均明確表達「趁周年慶換家具」。</div>
-    </div>
-    <div class="a-card" style="--ac:var(--blue)">
-      <div class="a-tag">📈 Q2 季度回顧</div>
-      <div class="a-title">配案占比持續上揚</div>
-      <div class="a-text">四月 33% → 五月 57% → 六月 67%，Q2 整體 56%（高意願水準）。六月單月訪客筆數與配案比例均創季度新高，趨勢持續向上。</div>
-    </div>
-    <div class="a-card" style="--ac:var(--green)">
-      <div class="a-tag">🏢 設計公司動態</div>
-      <div class="a-title">業主自驅到訪比重提升</div>
-      <div class="a-text">六月設計公司到訪次數與五月持平（3 次），惟業主自行到訪人次明顯增加（五月 7 人 → 六月 17 人），品牌口碑正形成自驅力。崢嶸設計廖嶸連三月到訪，屬 Q2 高頻互動對象。</div>
-    </div>
-    <div class="a-card" style="--ac:var(--teal)">
-      <div class="a-tag">👥 接待分布</div>
-      <div class="a-title">Cindy 承接六月主要接待量</div>
-      <div class="a-text">六月 12 筆中 Cindy 接待 8 筆（含全部配案採購案件），其次 Kelvin 2 筆。Q2 累計 Cindy 接待比例最高，為本季主力業務。</div>
-    </div>
-  </div>
-
-  <div class="sec">Q2 接待業務概況</div>
-  <div class="gc" style="margin-bottom:20px">
-    <div class="gc-hd"><div><h3>Q2 各業務接待次數</h3><p>四月—六月累計</p></div></div>
-    <div class="gc-body">
-      <div class="staff-grid stagger">
-        <div class="staff-card"><div class="sc-name">Cindy</div><div class="sc-num" style="color:var(--blue)">11</div><div class="sc-l">Q2 接待次數</div></div>
-        <div class="staff-card"><div class="sc-name">Kelvin</div><div class="sc-num" style="color:var(--green)">7</div><div class="sc-l">Q2 接待次數</div></div>
-        <div class="staff-card"><div class="sc-name">Aaron</div><div class="sc-num" style="color:var(--teal)">3</div><div class="sc-l">Q2 接待次數</div></div>
-        <div class="staff-card"><div class="sc-name">Daniel</div><div class="sc-num" style="color:var(--pink)">2</div><div class="sc-l">Q2 接待次數</div></div>
-        <div class="staff-card"><div class="sc-name">Sean</div><div class="sc-num" style="color:var(--mu)">1</div><div class="sc-l">Q2 接待次數</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec">目的結構</div>
-  <div class="gc">
-    <div class="gc-hd"><div><h3>參訪目的分布（月別）</h3><p>了解品牌 ／ 配案採購 ／ 其他</p></div></div>
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>目的</th><th>四月</th><th>五月</th><th>六月</th><th>Q2 合計</th><th>占比</th></tr></thead>
-        <tbody>
-          <tr><td><span class="badge b-learn">了解品牌</span></td><td>2</td><td>3</td><td>3</td><td>8</td><td style="color:var(--mu);font-size:15px;font-weight:700">32%</td></tr>
-          <tr><td><span class="badge b-purchase">配案採購</span></td><td>2</td><td>4</td><td>8</td><td>14</td><td style="color:var(--pink);font-size:15px;font-weight:800">56%</td></tr>
-          <tr><td><span class="badge b-other">其他</span></td><td>2</td><td>0</td><td>1</td><td>3</td><td style="color:var(--mu);font-size:15px;font-weight:700">12%</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</main>
-
-<script>
-/* ══ THEME ══ */
-(function(){
-  var d=document.documentElement;
-  var btn=document.getElementById('themeBtn');
-  var icon=document.getElementById('themeIcon');
-  var dm=matchMedia('(prefers-color-scheme:dark)').matches;
-  d.setAttribute('data-theme',dm?'dark':'light');
-  var MOON='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  var SUN='<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-  icon.innerHTML=dm?SUN:MOON;
-
-  btn.addEventListener('click',function(){
-    var n=d.getAttribute('data-theme')==='dark'?'light':'dark';
-    // 1. 先加 .theme-changing 啟動 transition
-    d.classList.add('theme-changing');
-    // 2. 下一幀切換 data-theme（transition 已就位）
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){
-        d.setAttribute('data-theme',n);
-        icon.innerHTML=n==='dark'?SUN:MOON;
-      });
-    });
-    // 3. 500ms 後移除（transition 完成後）
-    setTimeout(function(){ d.classList.remove('theme-changing'); }, 500);
-  });
-})();
-
-/* ══ TABS ══ */
-function showTab(id){
-  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  document.getElementById('tb-'+id).classList.add('active');
-  if(id==='trend') setTimeout(()=>{initCharts();animateConvBars();initSrcBars(14,6,3);},150);
-  // 關閉 dropdown
-  closeDrop();
-}
-
-/* ══ COUNT ANIM ══ */
-window.addEventListener('load',function(){
-  document.querySelectorAll('.cn-anim').forEach(el=>{
-    var t=+el.dataset.t||0,t0=null;
-    requestAnimationFrame(function tick(ts){
-      if(!t0)t0=ts;
-      var p=Math.min((ts-t0)/1000,1),e=1-Math.pow(1-p,3);
-      el.textContent=Math.round(e*t);
-      if(p<1)requestAnimationFrame(tick);
-    });
-  });
-});
-
-/* ══ MONTH FILTER ══ */
-document.getElementById('mf').addEventListener('click',e=>{
-  var b=e.target.closest('.f-btn'); if(!b)return;
-  document.querySelectorAll('.f-btn').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  var m=b.dataset.m;
-  document.querySelectorAll('.month-block').forEach(bl=>{
-    var show=m==='all'||bl.dataset.m===m;
-    bl.style.display=show?'block':'none';
-    if(show){void bl.offsetHeight;bl.style.animation='pageIn .35s cubic-bezier(.16,1,.3,1)'}
-  });
-});
-
-/* ══ CONV BARS ══ */
-function animateConvBars(){
-  document.querySelectorAll('.conv-fill').forEach(el=>{
-    if(el.dataset.w) el.style.width=el.dataset.w+'%';
-  });
-}
-
-/* ══ DROPDOWN — fixed portal ══ */
-var dropOpen=false;
-
-function positionMenu(){
-  var btn=document.getElementById('srcDropBtn');
-  var menu=document.getElementById('srcDropMenu');
-  if(btn&&menu) menu.style.minWidth=Math.max(btn.offsetWidth,270)+'px';
-}
-
-function toggleDrop(e){
-  e&&e.stopPropagation();
-  if(!dropOpen){
-    positionMenu();
-    dropOpen=true;
-  } else {
-    dropOpen=false;
-  }
-  var btn=document.getElementById('srcDropBtn');
-  var menu=document.getElementById('srcDropMenu');
-  btn.classList.toggle('open',dropOpen);
-  menu.classList.toggle('open',dropOpen);
-}
-
-function closeDrop(){
-  dropOpen=false;
-  var btn=document.getElementById('srcDropBtn');
-  var menu=document.getElementById('srcDropMenu');
-  if(btn) btn.classList.remove('open');
-  if(menu){ menu.classList.remove('open'); menu.style.overflow='hidden'; }
-}
-
-document.addEventListener('click',e=>{
-  var wrap=document.getElementById('srcDropWrap');
-  var menu=document.getElementById('srcDropMenu');
-  if(wrap&&!wrap.contains(e.target)&&menu&&!menu.contains(e.target)){
-    closeDrop();
-  }
-});
-
-// absolute 定位無需 scroll/resize 更新
-
-var SRC_DB={
-  apr:{o:4,d:1,x:1,label:'四月',icon:'📅'},
-  may:{o:4,d:3,x:0,label:'五月',icon:'📅'},
-  jun:{o:7,d:3,x:2,label:'六月・周年慶',icon:'🎂'},
-  q2: {o:15,d:7,x:3,label:'Q2 累計（四—六月）',icon:'📦'},
-  ytd:{o:15,d:7,x:3,label:'全年累積（YTD）',icon:'📊'},
-};
-
-function selectDrop(item){
-  var key=item.dataset.key;
-  var dat=SRC_DB[key]; if(!dat)return;
-  document.getElementById('db-icon').textContent=dat.icon;
-  document.getElementById('db-label').textContent=dat.label;
-  var badge=document.getElementById('src-badge');
-  if(badge) badge.textContent=dat.label;
-  document.querySelectorAll('.drop-item').forEach(x=>x.classList.remove('active'));
-  item.classList.add('active');
-  initSrcBars(dat.o,dat.d,dat.x);
-  if(window._srcChart){
-    window._srcChart.data.datasets[0].data=[dat.o,dat.d,dat.x];
-    window._srcChart.update('active');
-  }
-  closeDrop();
-}
-
-function initSrcBars(o,d,x){
-  var tot=o+d+x||1;
-  var sf=(fid,nid,val)=>{
-    var f=document.getElementById(fid), n=document.getElementById(nid);
-    if(f) setTimeout(()=>f.style.width=(val/tot*100)+'%',60);
-    if(n) n.textContent=val;
-  };
-  sf('sf-o','sn-o',o); sf('sf-d','sn-d',d); sf('sf-x','sn-x',x);
-}
-
-/* ══ CHARTS ══ */
-var _chartsReady=false;
-function initCharts(){
-  if(_chartsReady)return; _chartsReady=true;
-  var g=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  var blue=g('--blue'),green=g('--green'),mu=g('--mu'),fa=g('--fa');
-  var grid='rgba(128,128,128,.09)';
-  var font={family:"'Satoshi',sans-serif",size:12,weight:'600'};
-
-  new Chart(document.getElementById('stackChart'),{
-    type:'bar',
-    data:{labels:['四月','五月','六月'],datasets:[
-      {label:'業主',data:[9,7,17],backgroundColor:blue+'99',stack:'s',borderRadius:{topLeft:0,topRight:0,bottomLeft:5,bottomRight:5},borderSkipped:false},
-      {label:'設計公司',data:[4,10,5],backgroundColor:green+'99',stack:'s',borderRadius:0,borderSkipped:false},
-      {label:'其他',data:[3,0,3],backgroundColor:mu+'55',stack:'s',borderRadius:{topLeft:5,topRight:5,bottomLeft:0,bottomRight:0},borderSkipped:false},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{labels:{color:mu,usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12,font}},
-        tooltip:{callbacks:{footer:function(items){var t=items.reduce((s,i)=>s+i.parsed.y,0);return '總人次：'+t+' 人';}}}
-      },
-      scales:{
-        x:{ticks:{color:mu,font},grid:{color:grid}},
-        y:{ticks:{color:mu,font},grid:{color:grid},max:30}
-      }
-    },
-    plugins:[{
-      id:'totalLabel',
-      afterDatasetsDraw:function(chart){
-        var ctx=chart.ctx;
-        var totals=[16,17,25];
-        var labels=['四月','五月','六月'];
-        chart.data.labels.forEach(function(label,i){
-          var meta=chart.getDatasetMeta(2);
-          var bar=meta.data[i];
-          if(!bar)return;
-          var x=bar.x, y=bar.y-8;
-          ctx.save();
-          ctx.font='bold 13px \'Satoshi\',sans-serif';
-          ctx.fillStyle='rgba(255,255,255,0.90)';
-          ctx.textAlign='center';
-          ctx.textBaseline='bottom';
-          ctx.fillText(totals[i]+' 人', x, y);
-          ctx.restore();
-        });
-      }
-    }]
-  });
-
-  new Chart(document.getElementById('typeChart'),{
-    type:'bar',
-    data:{labels:['四月','五月','六月'],datasets:[
-      {label:'業主（次）',data:[4,4,7],backgroundColor:blue+'cc',borderRadius:6,borderSkipped:false},
-      {label:'設計公司（次）',data:[1,3,3],backgroundColor:green+'cc',borderRadius:6,borderSkipped:false},
-      {label:'其他（次）',data:[1,0,2],backgroundColor:mu+'55',borderRadius:6,borderSkipped:false},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      plugins:{legend:{labels:{color:mu,usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12,font}}},
-      scales:{x:{ticks:{color:mu,font},grid:{color:grid}},y:{ticks:{color:mu,font},grid:{color:grid}}}}
-  });
-
-  window._srcChart=new Chart(document.getElementById('srcDonut'),{
-    type:'doughnut',
-    data:{labels:['業主','設計公司','其他'],datasets:[{
-      data:[14,6,3],backgroundColor:[blue,green,fa],borderWidth:0,hoverOffset:12
-    }]},
-    options:{responsive:true,maintainAspectRatio:true,cutout:'65%',layout:{padding:18},
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.parsed+' 次'}}},
-      animation:{animateRotate:true,duration:800}}
-  });
-}
-</script>
-</body></html>
