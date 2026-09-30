@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAKER 台中門市 八月月報儀表板</title>
+<title>BAKER 台中門市 九月月報儀表板</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
+
 :root,[data-theme="light"]{
   --bg:#eef1f6; --bg2:#e3e8f0;
   --glass:rgba(255,255,255,.55); --glass-brd:rgba(255,255,255,.65);
@@ -137,10 +138,21 @@ tbody tr:hover{background:color-mix(in oklch,var(--blue) 5%,transparent)}
 .stagger>*{animation:fadeUp .5s cubic-bezier(.16,1,.3,1) backwards}
 .stagger>*:nth-child(1){animation-delay:.02s}.stagger>*:nth-child(2){animation-delay:.06s}
 .stagger>*:nth-child(3){animation-delay:.10s}.stagger>*:nth-child(4){animation-delay:.14s}.stagger>*:nth-child(5){animation-delay:.18s}
+
+@media(max-width:760px){
+  .topbar{position:relative;align-items:flex-start;gap:10px;padding:12px 14px;flex-wrap:wrap}
+  .brand{width:calc(100% - 48px)}.right{position:absolute;right:14px;top:10px}.updated{display:none}
+  .nav{order:3;width:100%;overflow-x:auto;padding-bottom:3px}.nav button{flex:0 0 auto;padding:8px 13px}
+  main{padding:20px 14px 60px}.g5,.g4{grid-template-columns:1fr 1fr}.staff-grid{grid-template-columns:repeat(2,1fr)}
+  .card{padding:17px}.kpi-v{font-size:27px}.ph h2{font-size:26px}
+}
+@media(max-width:460px){.g5,.g4{grid-template-columns:1fr}.staff-grid{grid-template-columns:1fr 1fr}}
+.staff-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.data-alert{display:none;margin-bottom:18px;padding:12px 16px;border-radius:14px;background:color-mix(in oklch,var(--pink) 12%,transparent);color:var(--pink);font-weight:700;font-size:13px}
+.empty{padding:32px;text-align:center;color:var(--mu)}
 </style>
 </head>
 <body>
-
 <div class="topbar">
   <div class="brand">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6"/></svg>
@@ -153,400 +165,187 @@ tbody tr:hover{background:color-mix(in oklch,var(--blue) 5%,transparent)}
     <button data-page="analysis">分析報告</button>
   </div>
   <div class="right">
-    <span class="updated">最後更新：2026 年八月</span>
+    <span class="updated" id="updatedLabel"></span>
     <button id="themeBtn" aria-label="切換深色模式"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"></svg></button>
   </div>
 </div>
 
 <main>
-
-<!-- OVERVIEW -->
-<section class="page active" id="page-overview">
-  <div class="ph">
-    <span class="pill">最新月報</span>
-    <h2>八月月報總覽</h2>
-    <p>BAKER 台中門市・2026 年八月完整數據・四月—八月累計匯總</p>
-  </div>
-
-  <div class="sec">八月當月 KPI</div>
-  <div class="g5 stagger" style="margin-bottom:26px">
-    <div class="card kpi" style="--kc:var(--blue)"><div class="kpi-l">訪客次數</div><div class="kpi-v">5</div><div class="kpi-s">筆記錄</div></div>
-    <div class="card kpi" style="--kc:var(--teal)"><div class="kpi-l">總人數</div><div class="kpi-v">10</div><div class="kpi-s">人到訪</div></div>
-    <div class="card kpi" style="--kc:var(--green)"><div class="kpi-l">業主來訪</div><div class="kpi-v">5</div><div class="kpi-s">次・10 人</div></div>
-    <div class="card kpi" style="--kc:var(--pink)"><div class="kpi-l">設計公司</div><div class="kpi-v">0</div><div class="kpi-s">次・0 人</div></div>
-    <div class="card kpi" style="--kc:var(--gold)"><div class="kpi-l">配案占比</div><div class="kpi-v" style="font-size:28px">20%</div><div class="kpi-s">✅ 一般</div></div>
-  </div>
-
-  <div class="sec">四月—八月累計</div>
-  <div class="g4 stagger" style="margin-bottom:26px">
-    <div class="card"><div class="kpi-l">總訪次（筆）</div><div class="kpi-v" style="color:var(--blue)">34</div><div class="kpi-s">Apr6・May7・Jun12・Jul4・Aug5</div></div>
-    <div class="card"><div class="kpi-l">總人數（人）</div><div class="kpi-v" style="color:var(--teal)">74</div><div class="kpi-s">Apr16・May17・Jun25・Jul6・Aug10</div></div>
-    <div class="card"><div class="kpi-l">業主來訪（次）</div><div class="kpi-v" style="color:var(--green)">24</div><div class="kpi-s">Apr4・May4・Jun7・Jul4・Aug5</div></div>
-    <div class="card"><div class="kpi-l">配案採購（筆）</div><div class="kpi-v" style="color:var(--pink)">17</div><div class="kpi-s">整體配案占比 50%</div></div>
-  </div>
-
-  <div class="sec">七月 VS 八月</div>
-  <div class="card" style="margin-bottom:26px">
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>指標</th><th>七月</th><th>八月</th><th>變化</th></tr></thead>
-        <tbody>
-          <tr><td>訪客次數（筆）</td><td>4</td><td>5</td><td><span class="diff up">↑ +1</span></td></tr>
-          <tr><td>總人數（人）</td><td>6</td><td>10</td><td><span class="diff up">↑ +4</span></td></tr>
-          <tr><td>業主（次）</td><td>4</td><td>5</td><td><span class="diff up">↑ +1</span></td></tr>
-          <tr><td>業主人數（人）</td><td>6</td><td>10</td><td><span class="diff up">↑ +4</span></td></tr>
-          <tr><td>設計公司（次）</td><td>0</td><td>0</td><td><span class="diff eq">— 平</span></td></tr>
-          <tr><td>配案採購（筆）</td><td>2</td><td>1</td><td><span class="diff dn">↓ −1</span></td></tr>
-          <tr><td>配案占比</td><td>50%</td><td>20%</td><td><span class="diff dn">↓ −30%</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="sec">八月接待人員</div>
-  <div class="staff-grid stagger">
-    <div class="card staff-card"><div class="sc-name">Cindy</div><div class="sc-num" style="color:var(--blue)">4</div><div class="sc-l">次接待</div></div>
-    <div class="card staff-card"><div class="sc-name">Sean</div><div class="sc-num" style="color:var(--green)">1</div><div class="sc-l">次接待</div></div>
-    <div class="card staff-card"><div class="sc-name">Kelvin</div><div class="sc-num" style="color:var(--pink)">0</div><div class="sc-l">次接待</div></div>
-    <div class="card staff-card"><div class="sc-name">Daniel</div><div class="sc-num" style="color:var(--mu)">0</div><div class="sc-l">次接待</div></div>
-  </div>
-</section>
-
-<!-- DETAIL -->
-<section class="page" id="page-detail">
-  <div class="ph"><span class="pill">完整記錄</span><h2>訪客明細</h2><p>2026 年四月—八月・共 34 筆完整到訪記錄</p></div>
-
-  <div class="filter-row" id="mf">
-    <button class="f-btn active" data-m="all">全部（34筆）</button>
-    <button class="f-btn" data-m="04">四月（6筆）</button>
-    <button class="f-btn" data-m="05">五月（7筆）</button>
-    <button class="f-btn" data-m="06">六月（12筆）🎂</button>
-    <button class="f-btn" data-m="07">七月（4筆）</button>
-    <button class="f-btn" data-m="08">八月（5筆）🆕</button>
-  </div>
-
-  <div class="card month-block" data-m="04" style="margin-bottom:20px">
-    <div class="mb-hd"><div><h3>四月</h3><p>6 筆・16 人・業主 4 次・設計 1 次・其他 1 次・配案 33%</p></div><span class="pill">一般</span></div>
-    <div class="tbl-scroll"><table>
-      <thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody>
-      <tr><td>04/15<br><span style="color:var(--faint);font-size:12px">10:00</span></td><td>廖嶸</td><td><span class="badge b-design">設計公司</span></td><td>崢嶸設計</td><td>4</td><td><span class="badge b-learn">了解品牌</span></td><td>設計師與業主商談商機・業主建案：精銳市政廳</td><td>Aaron</td></tr>
-      <tr><td>04/08<br><span style="color:var(--faint);font-size:12px">17:15</span></td><td>許小姐</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>4</td><td><span class="badge b-learn">了解品牌</span></td><td>喜歡MCGUIRE、木頭、有紋理感・地區：台灣、澳洲墨爾本</td><td>Cindy</td></tr>
-      <tr><td>04/22<br><span style="color:var(--faint);font-size:12px">15:45</span></td><td>麗舍執行副總</td><td><span class="badge b-other">其他</span></td><td>—</td><td>3</td><td><span class="badge b-other">其他</span></td><td>台北麗舍展廳異業合作機會</td><td>Cindy</td></tr>
-      <tr><td>04/29<br><span style="color:var(--faint);font-size:12px">11:00</span></td><td>陳淑慧小姐</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>喜歡TP邊櫃、需求：單椅邊几</td><td>Cindy</td></tr>
-      <tr><td>04/30<br><span style="color:var(--faint);font-size:12px">15:30</span></td><td>徐太太</td><td><span class="badge b-owner">業主</span></td><td>緯邁設計</td><td>1</td><td><span class="badge b-other">其他</span></td><td>付尾款，喜歡BXG邊櫃</td><td>Cindy</td></tr>
-      <tr><td>04/30<br><span style="color:var(--faint);font-size:12px">13:30</span></td><td>張先生</td><td><span class="badge b-owner">業主</span></td><td>帝谷設計</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>大件家具現貨，其餘或可等期貨・北屯自地自建、坪數大</td><td>Kelvin</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-
-  <div class="card month-block" data-m="05" style="margin-bottom:20px">
-    <div class="mb-hd"><div><h3>五月</h3><p>7 筆・17 人・業主 4 次・設計 3 次・配案 57%</p></div><span class="pill pill-gold">高意願</span></div>
-    <div class="tbl-scroll"><table>
-      <thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody>
-      <tr><td>05/07<br><span style="color:var(--faint);font-size:12px">13:30</span></td><td>李小姐</td><td><span class="badge b-owner">業主</span></td><td>水相設計</td><td>3</td><td><span class="badge b-purchase">配案採購</span></td><td>台北至仁愛</td><td>Daniel</td></tr>
-      <tr><td>05/08<br><span style="color:var(--faint);font-size:12px">09:30</span></td><td>廖嶸</td><td><span class="badge b-design">設計公司</span></td><td>崢嶸設計</td><td>3</td><td><span class="badge b-learn">了解品牌</span></td><td>設計師與業主商談商機・業主建案：精銳市政廳</td><td>Aaron</td></tr>
-      <tr><td>05/08<br><span style="color:var(--faint);font-size:12px">10:30</span></td><td>張瓊文</td><td><span class="badge b-design">設計公司</span></td><td>雲頂設計</td><td>1</td><td><span class="badge b-learn">了解品牌</span></td><td>—</td><td>Aaron</td></tr>
-      <tr><td>05/14<br><span style="color:var(--faint);font-size:12px">17:00</span></td><td>江屘菊</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>1</td><td><span class="badge b-purchase">配案採購</span></td><td>江老師新家客廳配置，折扣品為主・同Honnon接待</td><td>Kelvin</td></tr>
-      <tr><td>05/21<br><span style="color:var(--faint);font-size:12px">10:00</span></td><td>江屘菊</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>1</td><td><span class="badge b-purchase">配案採購</span></td><td>江老師確認品項及新品參觀・同Honnon接待</td><td>Kelvin</td></tr>
-      <tr><td>05/28<br><span style="color:var(--faint);font-size:12px">13:30</span></td><td>吉日設計</td><td><span class="badge b-design">設計公司</span></td><td>吉日設計</td><td>6</td><td><span class="badge b-learn">了解品牌</span></td><td>業主有了解過Baker，設計公司先來店參訪・同Honnon接待</td><td>Kelvin</td></tr>
-      <tr><td>05/29<br><span style="color:var(--faint);font-size:12px">17:00</span></td><td>吳先生</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>訂製為主，8月會入住・同Honnon接待</td><td>Kelvin</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-
-  <div class="card month-block" data-m="06" style="margin-bottom:20px">
-    <div class="mb-hd"><div><h3>六月 🎂 周年慶</h3><p>12 筆・25 人・業主 7 次・設計 3 次・其他 2 次・配案 67%</p></div><span class="pill pill-gold">高意願 🔥</span></div>
-    <div class="tbl-scroll"><table>
-      <thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody>
-      <tr><td>06/03<br><span style="color:var(--faint);font-size:12px">10:30</span></td><td>何佳憲 <span class="ann-chip">周年慶</span></td><td><span class="badge b-other">其他</span></td><td>古典音樂台</td><td>1</td><td><span class="badge b-other">其他</span></td><td>異業合作參觀</td><td>Sean</td></tr>
-      <tr><td>06/04<br><span style="color:var(--faint);font-size:12px">14:00</span></td><td>廖嶸</td><td><span class="badge b-design">設計公司</span></td><td>崢嶸設計</td><td>2</td><td><span class="badge b-learn">了解品牌</span></td><td>—</td><td>Kelvin</td></tr>
-      <tr><td>06/16<br><span style="color:var(--faint);font-size:12px">14:30</span></td><td>馬小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>想趁周年慶活動更換家具・百達富裔、雲林皆有住所</td><td>Cindy</td></tr>
-      <tr><td>06/17<br><span style="color:var(--faint);font-size:12px">14:00</span></td><td>邱先生 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>待確認</td><td>4</td><td><span class="badge b-learn">了解品牌</span></td><td>想汰換家具・住所在美術館附近</td><td>Cindy</td></tr>
-      <tr><td>06/17<br><span style="color:var(--faint);font-size:12px">14:30</span></td><td>Frances Wu <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>—</td><td>1</td><td><span class="badge b-purchase">配案採購</span></td><td>飾品類為主</td><td>Daniel</td></tr>
-      <tr><td>06/18<br><span style="color:var(--faint);font-size:12px">10:30</span></td><td>邱小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>—</td><td>1</td><td><span class="badge b-purchase">配案採購</span></td><td>—</td><td>Cindy</td></tr>
-      <tr><td>06/19<br><span style="color:var(--faint);font-size:12px">13:20</span></td><td>邱小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>—</td><td>3</td><td><span class="badge b-purchase">配案採購</span></td><td>—</td><td>Cindy</td></tr>
-      <tr><td>06/21<br><span style="color:var(--faint);font-size:12px">14:50</span></td><td>莊小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-design">設計公司</span></td><td>吉日設計</td><td>2</td><td><span class="badge b-learn">了解品牌</span></td><td>床組為主，渲染圖未出還在挑選家具中</td><td>Kelvin/Honnon</td></tr>
-      <tr><td>06/22<br><span style="color:var(--faint);font-size:12px">17:00</span></td><td>邱先生 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>上境設計</td><td>5</td><td><span class="badge b-purchase">配案採購</span></td><td>石岡山區，10月交貨</td><td>Cindy</td></tr>
-      <tr><td>06/25<br><span style="color:var(--faint);font-size:12px">17:00</span></td><td>張先生 <span class="ann-chip">周年慶</span></td><td><span class="badge b-other">其他</span></td><td>—</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>沙發單椅床組・Sean朋友</td><td>Cindy</td></tr>
-      <tr><td>06/29<br><span style="color:var(--faint);font-size:12px">14:00</span></td><td>大易設計 <span class="ann-chip">周年慶</span></td><td><span class="badge b-design">設計公司</span></td><td>大易設計</td><td>1</td><td><span class="badge b-purchase">配案採購</span></td><td>單椅，10月份交貨</td><td>Cindy</td></tr>
-      <tr><td>06/29<br><span style="color:var(--faint);font-size:12px">15:30</span></td><td>王小姐 <span class="ann-chip">周年慶</span></td><td><span class="badge b-owner">業主</span></td><td>大易設計</td><td>1</td><td><span class="badge b-purchase">配案採購</span></td><td>單椅，10月份交貨・寶璽天睿，喜歡McGire系列</td><td>Cindy</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-
-  <div class="card month-block" data-m="07" style="margin-bottom:20px">
-    <div class="mb-hd"><div><h3>七月</h3><p>4 筆・6 人・業主 4 次・設計 0 次・配案 50%</p></div><span class="pill pill-gold">高意願 🔥</span></div>
-    <div class="tbl-scroll"><table>
-      <thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody>
-      <tr><td>07/03<br><span style="color:var(--faint);font-size:12px">10:00</span></td><td>王小姐</td><td><span class="badge b-owner">業主</span></td><td>大易設計</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>單椅，10月份交貨・報價單確認，7/6匯款</td><td>Cindy</td></tr>
-      <tr><td>07/06<br><span style="color:var(--faint);font-size:12px">17:00</span></td><td>Michael</td><td><span class="badge b-owner">業主</span></td><td>大居設計</td><td>1</td><td><span class="badge b-learn">了解品牌</span></td><td>認識品牌喜歡古典一些・之前買過Ethan Aller住LA，北屯已交屋53坪</td><td>Cindy</td></tr>
-      <tr><td>07/22<br><span style="color:var(--faint);font-size:12px">14:00</span></td><td>范小姐</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>新家家具採購需求・Cindy後續進行</td><td>Cindy/Honnon</td></tr>
-      <tr><td>07/30<br><span style="color:var(--faint);font-size:12px">16:00</span></td><td>ANGEL</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>1</td><td><span class="badge b-learn">了解品牌</span></td><td>等車進來逛逛</td><td>Cindy</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-
-  <div class="card month-block" data-m="08" style="margin-bottom:20px">
-    <div class="mb-hd"><div><h3>八月 🆕 最新月報</h3><p>5 筆・10 人・業主 5 次・設計 0 次・配案 20%</p></div><span class="pill">一般</span></div>
-    <div class="tbl-scroll"><table>
-      <thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead>
-      <tbody>
-      <tr><td>08/06<br><span style="color:var(--faint);font-size:12px">14:00</span></td><td>吳先生</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-learn">了解品牌</span></td><td>百達30F住戶</td><td>Cindy</td></tr>
-      <tr><td>08/14<br><span style="color:var(--faint);font-size:12px">—</span></td><td>Tina</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-learn">了解品牌</span></td><td>—</td><td>Cindy</td></tr>
-      <tr><td>08/17<br><span style="color:var(--faint);font-size:12px">14:00</span></td><td>許小姐</td><td><span class="badge b-owner">業主</span></td><td>未提供</td><td>2</td><td><span class="badge b-learn">了解品牌</span></td><td>陽明山上，之前住美國知道Baker</td><td>Cindy</td></tr>
-      <tr><td>08/25<br><span style="color:var(--faint);font-size:12px">10:30</span></td><td>陳柏磬</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-learn">了解品牌</span></td><td>喜歡侘寂風</td><td>Sean</td></tr>
-      <tr><td>08/27<br><span style="color:var(--faint);font-size:12px">11:00</span></td><td>許小姐</td><td><span class="badge b-owner">業主</span></td><td>—</td><td>2</td><td><span class="badge b-purchase">配案採購</span></td><td>窗景區、餐廳、戶外</td><td>Cindy</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-</section>
-
-<!-- TREND -->
-<section class="page" id="page-trend">
-  <div class="ph"><span class="pill">四月—八月</span><h2>趨勢分析</h2><p>人次組成・配案占比・來源分布（可切換月份／季度／總累積）</p></div>
-
-  <div class="sec">來源分布<span id="src-badge" style="margin-left:8px;font-size:12px;color:var(--mu)">八月</span></div>
-
-  <div class="src-card-outer" style="margin-bottom:24px">
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px;flex-wrap:wrap">
-        <div><h3 style="margin:0 0 2px">來源分布</h3><p style="margin:0;font-size:13px;color:var(--mu)">業主／設計公司／其他 次數比例</p></div>
-        <div class="drop-wrap" id="srcDropWrap">
-          <button class="drop-btn" id="srcDropBtn" onclick="toggleDrop()">
-            <span id="db-icon">🆕</span><span id="db-label">八月</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="drop-menu" id="srcDropMenu">
-            <div class="drop-g-label">月份</div>
-            <div class="drop-item" data-key="apr" onclick="selectDrop(this)"><span>📅</span><span>四月</span><span class="di-badge">6筆</span></div>
-            <div class="drop-item" data-key="may" onclick="selectDrop(this)"><span>📅</span><span>五月</span><span class="di-badge">7筆</span></div>
-            <div class="drop-item" data-key="jun" onclick="selectDrop(this)"><span>🎂</span><span>六月・周年慶</span><span class="di-badge">12筆</span></div>
-            <div class="drop-item" data-key="jul" onclick="selectDrop(this)"><span>📅</span><span>七月</span><span class="di-badge">4筆</span></div>
-            <div class="drop-item active" data-key="aug" onclick="selectDrop(this)"><span>🆕</span><span>八月</span><span class="di-badge">5筆</span></div>
-            <div class="drop-g-label">季度</div>
-            <div class="drop-item" data-key="q2" onclick="selectDrop(this)"><span>📦</span><span>Q2（四—六月）</span><span class="di-badge">25筆</span></div>
-            <div class="drop-item" data-key="q3" onclick="selectDrop(this)"><span>📦</span><span>Q3（七—九月）</span><span class="di-badge">9筆</span></div>
-            <div class="drop-g-label">總累積</div>
-            <div class="drop-item" data-key="ytd" onclick="selectDrop(this)"><span>📊</span><span>全年累積（YTD）</span><span class="di-badge">34筆</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="src-layout">
-        <div style="width:130px;height:130px"><canvas id="srcDonut"></canvas></div>
-        <div>
-          <div class="src-row"><span class="src-label">業主</span><div class="src-track"><div class="src-fill" id="sf-o" style="background:var(--blue)"></div></div><span class="src-num" id="sn-o" style="color:var(--blue)">5</span></div>
-          <div class="src-row"><span class="src-label">設計公司</span><div class="src-track"><div class="src-fill" id="sf-d" style="background:var(--green)"></div></div><span class="src-num" id="sn-d" style="color:var(--green)">0</span></div>
-          <div class="src-row"><span class="src-label">其他</span><div class="src-track"><div class="src-fill" id="sf-x" style="background:var(--mu)"></div></div><span class="src-num" id="sn-x" style="color:var(--mu)">0</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="g2" style="margin-bottom:24px">
-    <div class="card"><h3 style="margin:0 0 4px">每月人次組成</h3><p style="margin:0 0 14px;font-size:13px;color:var(--mu)">業主＋設計公司＋其他（人）</p><div class="chart-wrap"><canvas id="stackChart"></canvas></div></div>
-    <div class="card"><h3 style="margin:0 0 4px">到訪次數比較</h3><p style="margin:0 0 14px;font-size:13px;color:var(--mu)">業主 vs 設計公司（次）</p><div class="chart-wrap"><canvas id="typeChart"></canvas></div></div>
-  </div>
-
-  <div class="sec">配案採購轉換率</div>
-  <div class="card">
-    <h3 style="margin:0 0 4px">配案占比歷史</h3><p style="margin:0 0 16px;font-size:13px;color:var(--mu)">配案採購筆數 ÷ 當月訪次　＞40% 為高意願</p>
-    <div id="conv-list"></div>
-  </div>
-</section>
-
-<!-- ANALYSIS -->
-<section class="page" id="page-analysis">
-  <div class="ph"><span class="pill pill-gold">八月觀察</span><h2>分析報告</h2><p>八月客觀趨勢觀察・四月—八月累計回顧</p></div>
-
-  <div class="sec">八月市場觀察</div>
-  <div class="a-grid stagger">
-    <div class="card a-card" style="--ac:var(--blue)">
-      <div class="a-tag">📈 人次回升</div>
-      <div class="a-title">訪客人數較七月成長</div>
-      <div class="a-text">八月訪客次數 5 筆、總人數 10 人，較七月（4 筆／6 人）皆有成長，總人數增加達 4 人，是七月後的首次回升。</div>
-    </div>
-    <div class="card a-card" style="--ac:var(--gold)">
-      <div class="a-tag">📉 配案占比走低</div>
-      <div class="a-title">配案占比降至 20%</div>
-      <div class="a-text">八月僅 1 筆配案採購（許小姐窗景區配置），占比 20%，落在「品牌認知型」與「一般」之間門檻，5 筆中有 4 筆屬於「了解品牌」目的。</div>
-    </div>
-    <div class="card a-card" style="--ac:var(--green)">
-      <div class="a-tag">🏢 設計公司來訪持續中斷</div>
-      <div class="a-title">連續兩個月無設計公司到訪</div>
-      <div class="a-text">七月、八月均為 0 次設計公司到訪，九筆記錄全數來自業主自行到訪，與四—六月每月均有設計公司互動的型態不同。</div>
-    </div>
-    <div class="card a-card" style="--ac:var(--teal)">
-      <div class="a-tag">👥 接待集中度</div>
-      <div class="a-title">Cindy 承接八月主要接待量</div>
-      <div class="a-text">八月 5 筆中 Cindy 接待 4 筆，Sean 接待 1 筆（陳柏磬），Kelvin、Daniel、Aaron 八月無接待紀錄。</div>
-    </div>
-  </div>
-
-  <div class="sec">參訪目的分布（四月—八月）</div>
-  <div class="card">
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>目的</th><th>四月</th><th>五月</th><th>六月</th><th>七月</th><th>八月</th><th>合計</th><th>占比</th></tr></thead>
-        <tbody>
-          <tr><td><span class="badge b-learn">了解品牌</span></td><td>2</td><td>3</td><td>3</td><td>2</td><td>4</td><td>14</td><td style="color:var(--mu);font-weight:700">41%</td></tr>
-          <tr><td><span class="badge b-purchase">配案採購</span></td><td>2</td><td>4</td><td>8</td><td>2</td><td>1</td><td>17</td><td style="color:var(--pink);font-weight:800">50%</td></tr>
-          <tr><td><span class="badge b-other">其他</span></td><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>3</td><td style="color:var(--mu);font-weight:700">9%</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
+  <div class="data-alert" id="dataAlert"></div>
+  <section class="page active" id="page-overview"></section>
+  <section class="page" id="page-detail"></section>
+  <section class="page" id="page-trend"></section>
+  <section class="page" id="page-analysis"></section>
 </main>
 
+<script id="visitor-data" type="application/json">[{"date":"2026-04-08","time":"17:15","name":"許小姐","source":"業主","company":"","people":4,"purpose":"了解品牌","note":"喜歡MCGUIRE 、木頭、有紋理感・地區：台灣、澳洲墨爾本","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-04-15","time":"10:00","name":"廖嶸","source":"設計公司","company":"崢嶸設計","people":4,"purpose":"了解品牌","note":"設計師與業主商談商機+接觸Baker・業主建案 : 精銳市政廳","salesRep":"Aaron","receptionist":"Aaron","anniversary":false},{"date":"2026-04-22","time":"15:45","name":"麗舍執行副總","source":"其他","company":"","people":3,"purpose":"其他","note":"台北麗舍展廳異業合作機會","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-04-29","time":"11:00","name":"陳淑慧小姐","source":"業主","company":"","people":2,"purpose":"配案採購需求","note":"喜歡TP邊櫃、需求:單椅邊几","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-04-30","time":"13:30","name":"張先生","source":"業主","company":"帝谷設計","people":2,"purpose":"配案採購需求","note":"大件家具現貨，其餘或可等期貨・北屯自地自建、坪數大","salesRep":"Kelvin","receptionist":"Kelvin","anniversary":false},{"date":"2026-04-30","time":"15:30","name":"徐太太","source":"業主","company":"緯邁設計","people":1,"purpose":"其他","note":"付尾款，喜歡BXG邊櫃","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-05-07","time":"13:30","name":"李小姐","source":"業主","company":"水相設計","people":3,"purpose":"配案採購需求","note":"台北 至仁愛","salesRep":"Daniel","receptionist":"Daniel","anniversary":false},{"date":"2026-05-08","time":"09:30","name":"廖嶸","source":"設計公司","company":"崢嶸設計","people":3,"purpose":"了解品牌","note":"設計師與業主商談商機+接觸Baker・業主建案 : 精銳市政廳","salesRep":"Aaron","receptionist":"Aaron","anniversary":false},{"date":"2026-05-08","time":"10:30","name":"張瓊文","source":"設計公司","company":"雲頂設計","people":1,"purpose":"了解品牌","note":"","salesRep":"Aaron","receptionist":"Aaron","anniversary":false},{"date":"2026-05-14","time":"17:00","name":"江屘菊","source":"業主","company":"","people":1,"purpose":"配案採購需求","note":"江老師新家客廳配置,折扣品為主・同Honnon接待","salesRep":"Kelvin","receptionist":"Kelvin","anniversary":false},{"date":"2026-05-21","time":"10:00","name":"江屘菊","source":"業主","company":"","people":1,"purpose":"配案採購需求","note":"江老師確認品項及新品參觀・同Honnon接待","salesRep":"Kelvin","receptionist":"Kelvin","anniversary":false},{"date":"2026-05-28","time":"13:30","name":"吉日設計","source":"設計公司","company":"吉日設計","people":6,"purpose":"了解品牌","note":"業主有了解過Baker,設計公司先來店參訪・同Honnon接待","salesRep":"Kelvin","receptionist":"Kelvin","anniversary":false},{"date":"2026-05-29","time":"17:00","name":"吳先生","source":"業主","company":"","people":2,"purpose":"配案採購需求","note":"訂製為主,8月會入住・同Honnon接待","salesRep":"Kelvin","receptionist":"Kelvin","anniversary":false},{"date":"2026-06-03","time":"10:30","name":"何佳憲","source":"其他","company":"古典音樂台","people":1,"purpose":"其他","note":"異業合作・異業合作參觀","salesRep":"Sean","receptionist":"Sean","anniversary":true},{"date":"2026-06-04","time":"14:00","name":"廖嶸","source":"設計公司","company":"崢嶸設計","people":2,"purpose":"了解品牌","note":"","salesRep":"Aaron","receptionist":"Kelvin","anniversary":true},{"date":"2026-06-16","time":"14:30","name":"馬小姐","source":"業主","company":"","people":2,"purpose":"配案採購需求","note":"想趁周年慶活動更換家具・百達富裔、雲林皆有住所","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-17","time":"14:00","name":"邱先生","source":"業主","company":"待確認","people":4,"purpose":"了解品牌","note":"想汰換家具・住所在美術館附近，待設計師回國後約","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-17","time":"14:30","name":"Frances Wu","source":"業主","company":"","people":1,"purpose":"配案採購需求","note":"飾品類為主","salesRep":"Daniel","receptionist":"Daniel","anniversary":true},{"date":"2026-06-18","time":"10:30","name":"邱小姐","source":"業主","company":"","people":1,"purpose":"配案採購需求","note":"","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-19","time":"13:20","name":"邱小姐","source":"業主","company":"","people":3,"purpose":"配案採購需求","note":"","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-21","time":"14:50","name":"莊小姐","source":"設計公司","company":"吉日設計","people":2,"purpose":"了解品牌","note":"床組為主・渲染圖未出還在挑選家具中","salesRep":"Kelvin","receptionist":"Kelvin /Honnon","anniversary":true},{"date":"2026-06-22","time":"17:00","name":"邱先生","source":"業主","company":"上境設計","people":5,"purpose":"配案採購需求","note":"石岡山區，10月交貨","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-25","time":"17:00","name":"張先生","source":"其他","company":"","people":2,"purpose":"配案採購需求","note":"沙發單椅床組・Sean朋友","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-29","time":"14:00","name":"大易設計","source":"設計公司","company":"大易設計","people":1,"purpose":"配案採購需求","note":"單椅，10月份交貨","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-06-29","time":"15:30","name":"王小姐","source":"業主","company":"大易設計","people":1,"purpose":"配案採購需求","note":"單椅，10月份交貨・寶璽天睿，喜歡McGire系列","salesRep":"Cindy","receptionist":"Cindy","anniversary":true},{"date":"2026-07-03","time":"10:00","name":"王小姐","source":"業主","company":"大易設計","people":2,"purpose":"配案採購需求","note":"單椅，10月份交貨・報價單確認，7/6匯款","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-07-06","time":"17:00","name":"Michael","source":"業主","company":"大居設計","people":1,"purpose":"了解品牌","note":"認識品牌 喜歡古典一些・之前買過Ethan Aller\n住LA ，北屯已交屋-53坪","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-07-22","time":"14:00","name":"范小姐","source":"業主","company":"","people":2,"purpose":"配案採購需求","note":"新家家具採購需求・Cindy後續進行","salesRep":"Cindy","receptionist":"Honnon","anniversary":false},{"date":"2026-07-30","time":"16:00","name":"ANGEL","source":"業主","company":"","people":1,"purpose":"了解品牌","note":"等車進來逛逛","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-08-06","time":"14:00","name":"吳先生","source":"業主","company":"","people":2,"purpose":"了解品牌","note":"百達30F住戶","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-08-14","time":"","name":"Tina","source":"業主","company":"","people":2,"purpose":"了解品牌","note":"","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-08-17","time":"14:00","name":"許小姐","source":"業主","company":"未提供","people":2,"purpose":"了解品牌","note":"陽明山上 之前住美國知道Baker","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-08-25","time":"10:30","name":"陳柏磬","source":"業主","company":"","people":2,"purpose":"了解品牌","note":"喜歡侘寂風","salesRep":"Cindy","receptionist":"Sean","anniversary":false},{"date":"2026-08-27","time":"11:00","name":"許小姐","source":"業主","company":"","people":2,"purpose":"配案採購需求","note":"窗景區、餐廳、戶外","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-08-31","time":"14:00","name":"蘇新婷","source":"其他","company":"","people":3,"purpose":"其他","note":"好感生活展團隊交流","salesRep":"Sean","receptionist":"Sean","anniversary":false},{"date":"2026-09-02","time":"15:30","name":"張家衍","source":"其他","company":"","people":2,"purpose":"其他","note":"LINE CRM廠商Oalmega拜會","salesRep":"Sean","receptionist":"Sean","anniversary":false},{"date":"2026-09-04","time":"15:30","name":"藍色隧道","source":"其他","company":"","people":1,"purpose":"其他","note":"之前來過展廳,台中工作順道拜訪","salesRep":"Sean","receptionist":"Sean","anniversary":false},{"date":"2026-09-08","time":"11:00","name":"鍾書涵","source":"業主","company":"","people":1,"purpose":"配案採購需求","note":"找櫃體","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-09-15","time":"16:30","name":"PENNY WANG","source":"業主","company":"莫赫榭設計","people":1,"purpose":"配案採購需求","note":"認識品牌/挑選家具","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-09-16","time":"15:30","name":"PENNY WANG","source":"業主","company":"莫赫榭設計","people":2,"purpose":"配案採購需求","note":"帶設計師到門市一同確認","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-09-21","time":"12:00","name":"PENNY WANG","source":"業主","company":"莫赫榭設計","people":1,"purpose":"配案採購需求","note":"付款","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-09-21","time":"14:30","name":"聿言設計","source":"設計公司","company":"聿言設計","people":7,"purpose":"了解品牌","note":"了解品牌","salesRep":"Cindy","receptionist":"Cindy","anniversary":false},{"date":"2026-09-22","time":"16:00","name":"莫赫榭設計","source":"設計公司","company":"","people":3,"purpose":"配案採購需求","note":"Penny 設計師到店討論","salesRep":"Cindy","receptionist":"Kelvin","anniversary":false},{"date":"2026-09-30","time":"12:00","name":"慕慕陳設","source":"設計公司","company":"慕慕陳設","people":1,"purpose":"其他","note":"其他","salesRep":"Cindy","receptionist":"Cindy","anniversary":false}]</script>
 <script>
-/* THEME */
 (function(){
-  var d=document.documentElement, btn=document.getElementById('themeBtn'), icon=document.getElementById('themeIcon');
-  var dm=matchMedia('(prefers-color-scheme:dark)').matches;
-  d.setAttribute('data-theme',dm?'dark':'light');
-  var MOON='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  var SUN='<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-  icon.innerHTML=dm?SUN:MOON;
-  btn.addEventListener('click',function(){
-    var n=d.getAttribute('data-theme')==='dark'?'light':'dark';
-    d.setAttribute('data-theme',n); icon.innerHTML=n==='dark'?SUN:MOON;
-  });
-})();
-
-/* NAV */
-document.querySelectorAll('.nav button').forEach(function(b){
-  b.addEventListener('click',function(){
-    document.querySelectorAll('.nav button').forEach(function(x){x.classList.remove('active')});
-    b.classList.add('active');
-    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
-    document.getElementById('page-'+b.dataset.page).classList.add('active');
-  });
-});
-
-/* FILTER */
-document.querySelectorAll('#mf .f-btn').forEach(function(b){
-  b.addEventListener('click',function(){
-    document.querySelectorAll('#mf .f-btn').forEach(function(x){x.classList.remove('active')});
-    b.classList.add('active');
-    var m=b.dataset.m;
-    document.querySelectorAll('.month-block').forEach(function(mb){
-      mb.style.display=(m==='all'||mb.dataset.m===m)?'':'none';
+  'use strict';
+  const DATA=JSON.parse(document.getElementById('visitor-data').textContent);
+  const MONTH_NAME={"01":"一月","02":"二月","03":"三月","04":"四月","05":"五月","06":"六月","07":"七月","08":"八月","09":"九月","10":"十月","11":"十一月","12":"十二月"};
+  const MONTH_SHORT={"01":"Jan","02":"Feb","03":"Mar","04":"Apr","05":"May","06":"Jun","07":"Jul","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec"};
+  const STAFF=["Cindy","Sean","Kelvin","Daniel","Aaron"];
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const monthOf=r=>r.date.slice(5,7);
+  const months=[...new Set(DATA.map(monthOf))].sort();
+  const latest=months[months.length-1], previous=months[months.length-2];
+  const year=DATA.length?DATA[0].date.slice(0,4):'2026';
+  const latestName=MONTH_NAME[latest], previousName=MONTH_NAME[previous];
+  const monthData=m=>DATA.filter(r=>monthOf(r)===m);
+  const isPurchase=r=>r.purpose.includes('配案')||r.purpose.includes('採購');
+  const stat=rows=>{
+    const src={owner:{count:0,people:0},design:{count:0,people:0},other:{count:0,people:0}};
+    const purposes={learn:0,purchase:0,other:0};
+    rows.forEach(r=>{
+      const key=r.source==='業主'?'owner':r.source==='設計公司'?'design':'other';
+      src[key].count++;src[key].people+=Number(r.people)||0;
+      if(isPurchase(r))purposes.purchase++;else if(r.purpose.includes('了解品牌'))purposes.learn++;else purposes.other++;
     });
-  });
-});
+    return {count:rows.length,people:rows.reduce((s,r)=>s+(Number(r.people)||0),0),src,purposes,conversion:rows.length?Math.round(purposes.purchase/rows.length*100):0};
+  };
+  const stats=Object.fromEntries(months.map(m=>[m,stat(monthData(m))]));
+  const latestStat=stats[latest], prevStat=stats[previous], totalStat=stat(DATA);
+  const classify=pct=>pct>40?{label:'高意願 🔥',cls:'pill-gold'}:pct>=20?{label:'一般',cls:''}:{label:'品牌認知型',cls:''};
+  const diff=(a,b,suffix='')=>{
+    const d=a-b, cls=d>0?'up':d<0?'dn':'eq', arrow=d>0?'↑':d<0?'↓':'—';
+    return `<span class="diff ${cls}">${arrow} ${d===0?'持平':(d>0?'+':'')+d+suffix}</span>`;
+  };
+  const monthRange=`${MONTH_NAME[months[0]]}—${MONTH_NAME[latest]}`;
 
-/* DROPDOWN */
-function toggleDrop(){document.getElementById('srcDropMenu').classList.toggle('open');}
-document.addEventListener('click',function(e){
-  if(!document.getElementById('srcDropWrap').contains(e.target)) document.getElementById('srcDropMenu').classList.remove('open');
-});
-var SRC_DB={
-  apr:{o:4,d:1,x:1,label:'四月',icon:'📅',badge:'四月'},
-  may:{o:4,d:3,x:0,label:'五月',icon:'📅',badge:'五月'},
-  jun:{o:7,d:3,x:2,label:'六月・周年慶',icon:'🎂',badge:'六月'},
-  jul:{o:4,d:0,x:0,label:'七月',icon:'📅',badge:'七月'},
-  aug:{o:5,d:0,x:0,label:'八月',icon:'🆕',badge:'八月'},
-  q2: {o:15,d:7,x:3,label:'Q2 累計（四—六月）',icon:'📦',badge:'Q2 累計'},
-  q3: {o:9,d:0,x:0,label:'Q3 累計（七—九月）',icon:'📦',badge:'Q3 累計'},
-  ytd:{o:24,d:7,x:3,label:'全年累積（YTD）',icon:'📊',badge:'YTD'},
-};
-function selectDrop(item){
-  var key=item.dataset.key, dat=SRC_DB[key]; if(!dat)return;
-  document.getElementById('db-icon').textContent=dat.icon;
-  document.getElementById('db-label').textContent=dat.label;
-  document.getElementById('src-badge').textContent=dat.badge;
-  document.querySelectorAll('.drop-item').forEach(function(x){x.classList.remove('active')});
-  item.classList.add('active');
-  updateSrc(dat);
-  document.getElementById('srcDropMenu').classList.remove('open');
-}
-function updateSrc(dat){
-  var total=dat.o+dat.d+dat.x;
-  document.getElementById('sn-o').textContent=dat.o;
-  document.getElementById('sn-d').textContent=dat.d;
-  document.getElementById('sn-x').textContent=dat.x;
-  document.getElementById('sf-o').style.width=(total?dat.o/total*100:0)+'%';
-  document.getElementById('sf-d').style.width=(total?dat.d/total*100:0)+'%';
-  document.getElementById('sf-x').style.width=(total?dat.x/total*100:0)+'%';
-  if(window._srcChart){
-    window._srcChart.data.datasets[0].data=[dat.o,dat.d,dat.x];
-    window._srcChart.update();
+  document.getElementById('updatedLabel').textContent=`最後更新：${year} 年${latestName}`;
+  document.title=`BAKER 台中門市 ${latestName}月報儀表板`;
+
+  function renderOverview(){
+    const s=latestStat,p=prevStat,cl=classify(s.conversion);
+    const monthlyVisits=months.map(m=>`${MONTH_SHORT[m]}${stats[m].count}`).join('・');
+    const monthlyPeople=months.map(m=>`${MONTH_SHORT[m]}${stats[m].people}`).join('・');
+    const staff=STAFF.map(name=>({name,count:monthData(latest).filter(r=>r.receptionist.includes(name)).length})).sort((a,b)=>b.count-a.count||STAFF.indexOf(a.name)-STAFF.indexOf(b.name));
+    document.getElementById('page-overview').innerHTML=`
+      <div class="ph"><span class="pill">最新月報</span><h2>${latestName}月報總覽</h2><p>BAKER 台中門市・${year} 年${latestName}完整數據・${monthRange}累計匯總</p></div>
+      <div class="sec">${latestName}當月 KPI</div>
+      <div class="g5 stagger" style="margin-bottom:26px">
+        <div class="card kpi" style="--kc:var(--blue)"><div class="kpi-l">訪客次數</div><div class="kpi-v">${s.count}</div><div class="kpi-s">筆記錄</div></div>
+        <div class="card kpi" style="--kc:var(--teal)"><div class="kpi-l">總人數</div><div class="kpi-v">${s.people}</div><div class="kpi-s">人到訪</div></div>
+        <div class="card kpi" style="--kc:var(--green)"><div class="kpi-l">業主來訪</div><div class="kpi-v">${s.src.owner.count}</div><div class="kpi-s">次・${s.src.owner.people} 人</div></div>
+        <div class="card kpi" style="--kc:var(--pink)"><div class="kpi-l">設計公司</div><div class="kpi-v">${s.src.design.count}</div><div class="kpi-s">次・${s.src.design.people} 人</div></div>
+        <div class="card kpi" style="--kc:var(--gold)"><div class="kpi-l">配案占比</div><div class="kpi-v" style="font-size:28px">${s.conversion}%</div><div class="kpi-s">${cl.label}</div></div>
+      </div>
+      <div class="sec">${monthRange}累計</div>
+      <div class="g4 stagger" style="margin-bottom:26px">
+        <div class="card"><div class="kpi-l">總訪次（筆）</div><div class="kpi-v" style="color:var(--blue)">${totalStat.count}</div><div class="kpi-s">${monthlyVisits}</div></div>
+        <div class="card"><div class="kpi-l">總人數（人）</div><div class="kpi-v" style="color:var(--teal)">${totalStat.people}</div><div class="kpi-s">${monthlyPeople}</div></div>
+        <div class="card"><div class="kpi-l">業主來訪（次）</div><div class="kpi-v" style="color:var(--green)">${totalStat.src.owner.count}</div><div class="kpi-s">${months.map(m=>`${MONTH_SHORT[m]}${stats[m].src.owner.count}`).join('・')}</div></div>
+        <div class="card"><div class="kpi-l">配案採購（筆）</div><div class="kpi-v" style="color:var(--pink)">${totalStat.purposes.purchase}</div><div class="kpi-s">整體配案占比 ${totalStat.conversion}%</div></div>
+      </div>
+      <div class="sec">${previousName} VS ${latestName}</div>
+      <div class="card" style="margin-bottom:26px"><div class="tbl-scroll"><table><thead><tr><th>指標</th><th>${previousName}</th><th>${latestName}</th><th>變化</th></tr></thead><tbody>
+        <tr><td>訪客次數（筆）</td><td>${p.count}</td><td>${s.count}</td><td>${diff(s.count,p.count)}</td></tr>
+        <tr><td>總人數（人）</td><td>${p.people}</td><td>${s.people}</td><td>${diff(s.people,p.people)}</td></tr>
+        <tr><td>業主（次）</td><td>${p.src.owner.count}</td><td>${s.src.owner.count}</td><td>${diff(s.src.owner.count,p.src.owner.count)}</td></tr>
+        <tr><td>業主人數（人）</td><td>${p.src.owner.people}</td><td>${s.src.owner.people}</td><td>${diff(s.src.owner.people,p.src.owner.people)}</td></tr>
+        <tr><td>設計公司（次）</td><td>${p.src.design.count}</td><td>${s.src.design.count}</td><td>${diff(s.src.design.count,p.src.design.count)}</td></tr>
+        <tr><td>配案採購（筆）</td><td>${p.purposes.purchase}</td><td>${s.purposes.purchase}</td><td>${diff(s.purposes.purchase,p.purposes.purchase)}</td></tr>
+        <tr><td>配案占比</td><td>${p.conversion}%</td><td>${s.conversion}%</td><td>${diff(s.conversion,p.conversion,'%')}</td></tr>
+      </tbody></table></div></div>
+      <div class="sec">${latestName}接待人員</div>
+      <div class="staff-grid stagger">${staff.map((x,i)=>`<div class="card staff-card"><div class="sc-name">${esc(x.name)}</div><div class="sc-num" style="color:${['var(--blue)','var(--green)','var(--pink)','var(--gold)','var(--mu)'][i]}">${x.count}</div><div class="sc-l">次接待</div></div>`).join('')}</div>`;
   }
-}
 
-/* CHARTS */
-var css=getComputedStyle(document.documentElement);
-var blue=css.getPropertyValue('--blue').trim(), green=css.getPropertyValue('--green').trim(),
-    mu=css.getPropertyValue('--mu').trim(), teal=css.getPropertyValue('--teal').trim(),
-    pink=css.getPropertyValue('--pink').trim(), grid='rgba(150,150,150,.15)';
-var font={size:12,family:'Noto Sans TC'};
+  function sourceBadge(source){return source==='業主'?'b-owner':source==='設計公司'?'b-design':'b-other'}
+  function purposeBadge(r){return isPurchase(r)?'b-purchase':r.purpose.includes('了解品牌')?'b-learn':'b-other'}
+  function monthBlock(m){
+    const s=stats[m],cl=classify(s.conversion),latestMark=m===latest?' 🆕 最新月報':'',ann=m==='06'?' 🎂':'';
+    const rows=monthData(m).map(r=>`<tr>
+      <td>${esc(r.date.slice(5).replace('-','/'))}<br><span style="color:var(--faint);font-size:12px">${esc(r.time||'—')}</span></td>
+      <td>${esc(r.name)}${r.anniversary?' <span class="ann-chip">周年慶</span>':''}</td>
+      <td><span class="badge ${sourceBadge(r.source)}">${esc(r.source)}</span></td><td>${esc(r.company||'—')}</td><td>${r.people}</td>
+      <td><span class="badge ${purposeBadge(r)}">${esc(isPurchase(r)?'配案採購':r.purpose)}</span></td>
+      <td>${esc(r.note||'—').replace(/\n/g,'<br>')}</td><td>${esc(r.receptionist)}</td></tr>`).join('');
+    return `<div class="card month-block" data-m="${m}" style="margin-bottom:20px"><div class="mb-hd"><div><h3>${MONTH_NAME[m]}${ann}${latestMark}</h3><p>${s.count} 筆・${s.people} 人・業主 ${s.src.owner.count} 次・設計 ${s.src.design.count} 次・其他 ${s.src.other.count} 次・配案 ${s.conversion}%</p></div><span class="pill ${cl.cls}">${cl.label}</span></div><div class="tbl-scroll"><table><thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  }
+  function renderDetail(){
+    const filters=months.map(m=>`<button class="f-btn${m===latest?' active':''}" data-m="${m}">${MONTH_NAME[m]}（${stats[m].count}筆）${m==='06'?'🎂':m===latest?'🆕':''}</button>`).join('');
+    document.getElementById('page-detail').innerHTML=`<div class="ph"><span class="pill">完整記錄</span><h2>訪客明細</h2><p>${year} 年${monthRange}・共 ${totalStat.count} 筆完整到訪記錄</p></div><div class="filter-row" id="mf"><button class="f-btn" data-m="all">全部（${totalStat.count}筆）</button>${filters}</div><div id="monthBlocks">${months.map(monthBlock).join('')}</div>`;
+    document.querySelectorAll('#mf .f-btn').forEach(b=>b.addEventListener('click',()=>{
+      document.querySelectorAll('#mf .f-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+      document.querySelectorAll('.month-block').forEach(mb=>mb.style.display=(b.dataset.m==='all'||mb.dataset.m===b.dataset.m)?'':'none');
+    }));
+    document.querySelectorAll('.month-block').forEach(mb=>mb.style.display=mb.dataset.m===latest?'':'none');
+  }
 
-window._srcChart=new Chart(document.getElementById('srcDonut'),{
-  type:'doughnut',
-  data:{labels:['業主','設計公司','其他'],datasets:[{data:[5,0,0],backgroundColor:[blue,green,mu],borderWidth:0}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{enabled:true}}}
-});
+  let sourceViews={},charts=[];
+  function aggregateMonths(list){return stat(DATA.filter(r=>list.includes(monthOf(r))))}
+  function buildSourceViews(){
+    months.forEach(m=>sourceViews[m]={...stats[m],label:MONTH_NAME[m],icon:m===latest?'🆕':m==='06'?'🎂':'📅',badge:MONTH_NAME[m]});
+    const qs=[...new Set(months.map(m=>Math.floor((Number(m)-1)/3)+1))];
+    qs.forEach(q=>{const list=months.filter(m=>Math.floor((Number(m)-1)/3)+1===q),s=aggregateMonths(list),key=`q${q}`;sourceViews[key]={...s,label:`Q${q} 累計（${MONTH_NAME[list[0]].replace('月','')}—${MONTH_NAME[list[list.length-1]]}）`,icon:'📦',badge:`Q${q} 累計`}});
+    sourceViews.ytd={...totalStat,label:'全年累積（YTD）',icon:'📊',badge:'YTD'};
+  }
+  function renderTrend(){
+    buildSourceViews();
+    const monthItems=months.map(m=>`<div class="drop-item${m===latest?' active':''}" data-key="${m}"><span>${sourceViews[m].icon}</span><span>${MONTH_NAME[m]}${m==='06'?'・周年慶':''}</span><span class="di-badge">${stats[m].count}筆</span></div>`).join('');
+    const quarterKeys=Object.keys(sourceViews).filter(k=>/^q\d$/.test(k));
+    const quarterItems=quarterKeys.map(k=>`<div class="drop-item" data-key="${k}"><span>📦</span><span>${sourceViews[k].label}</span><span class="di-badge">${sourceViews[k].count}筆</span></div>`).join('');
+    document.getElementById('page-trend').innerHTML=`
+      <div class="ph"><span class="pill">${monthRange}</span><h2>趨勢分析</h2><p>人次組成・配案占比・來源分布（可切換月份／季度／總累積）</p></div>
+      <div class="sec">來源分布<span id="src-badge" style="margin-left:8px;font-size:12px;color:var(--mu)">${latestName}</span></div>
+      <div class="src-card-outer" style="margin-bottom:24px"><div class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px;flex-wrap:wrap"><div><h3 style="margin:0 0 2px">來源分布</h3><p style="margin:0;font-size:13px;color:var(--mu)">業主／設計公司／其他 次數比例</p></div><div class="drop-wrap" id="srcDropWrap"><button class="drop-btn" id="srcDropBtn"><span id="db-icon">🆕</span><span id="db-label">${latestName}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M6 9l6 6 6-6"/></svg></button><div class="drop-menu" id="srcDropMenu"><div class="drop-g-label">月份</div>${monthItems}<div class="drop-g-label">季度</div>${quarterItems}<div class="drop-g-label">總累積</div><div class="drop-item" data-key="ytd"><span>📊</span><span>全年累積（YTD）</span><span class="di-badge">${totalStat.count}筆</span></div></div></div></div><div class="src-layout"><div style="width:130px;height:130px"><canvas id="srcDonut"></canvas></div><div><div class="src-row"><span class="src-label">業主</span><div class="src-track"><div class="src-fill" id="sf-o" style="background:var(--blue)"></div></div><span class="src-num" id="sn-o" style="color:var(--blue)"></span></div><div class="src-row"><span class="src-label">設計公司</span><div class="src-track"><div class="src-fill" id="sf-d" style="background:var(--green)"></div></div><span class="src-num" id="sn-d" style="color:var(--green)"></span></div><div class="src-row"><span class="src-label">其他</span><div class="src-track"><div class="src-fill" id="sf-x" style="background:var(--mu)"></div></div><span class="src-num" id="sn-x" style="color:var(--mu)"></span></div></div></div></div></div>
+      <div class="g2" style="margin-bottom:24px"><div class="card"><h3 style="margin:0 0 4px">每月人次組成</h3><p style="margin:0 0 14px;font-size:13px;color:var(--mu)">業主＋設計公司＋其他（人）</p><div class="chart-wrap"><canvas id="stackChart"></canvas></div></div><div class="card"><h3 style="margin:0 0 4px">到訪次數比較</h3><p style="margin:0 0 14px;font-size:13px;color:var(--mu)">業主／設計公司／其他（次）</p><div class="chart-wrap"><canvas id="typeChart"></canvas></div></div></div>
+      <div class="sec">配案採購轉換率</div><div class="card"><h3 style="margin:0 0 4px">配案占比歷史</h3><p style="margin:0 0 16px;font-size:13px;color:var(--mu)">配案採購筆數 ÷ 當月訪次　＞40% 為高意願</p><div id="conv-list"></div></div>`;
+    document.getElementById('srcDropBtn').addEventListener('click',()=>document.getElementById('srcDropMenu').classList.toggle('open'));
+    document.addEventListener('click',e=>{const w=document.getElementById('srcDropWrap');if(w&&!w.contains(e.target))document.getElementById('srcDropMenu').classList.remove('open')});
+    document.querySelectorAll('.drop-item').forEach(item=>item.addEventListener('click',()=>selectSource(item)));
+    document.getElementById('conv-list').innerHTML=months.map(m=>{const s=stats[m],c=classify(s.conversion),color=s.conversion>40?'var(--gold)':'var(--mu)',bg=s.conversion>40?'var(--gold-g)':'color-mix(in oklch,var(--mu) 15%,transparent)';return `<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><span style="width:44px;font-size:14px;font-weight:700;color:${color}">${MONTH_NAME[m]}</span><div style="flex:1;background:color-mix(in oklch,var(--text) 8%,transparent);border-radius:999px;height:10px;overflow:hidden"><div style="height:100%;border-radius:999px;background:${color};width:${s.conversion}%;transition:width 1.2s cubic-bezier(.16,1,.3,1)"></div></div><span style="width:44px;font-weight:800;color:${color};text-align:right">${s.conversion}%</span><span style="font-size:12px;padding:4px 10px;border-radius:999px;background:${bg};color:${color};font-weight:700">${c.label}</span></div>`}).join('');
+    updateSource(sourceViews[latest]);renderCharts();
+  }
+  function selectSource(item){
+    const d=sourceViews[item.dataset.key];document.getElementById('db-icon').textContent=d.icon;document.getElementById('db-label').textContent=d.label;document.getElementById('src-badge').textContent=d.badge;document.querySelectorAll('.drop-item').forEach(x=>x.classList.remove('active'));item.classList.add('active');updateSource(d);document.getElementById('srcDropMenu').classList.remove('open');
+  }
+  function updateSource(d){
+    const vals=[d.src.owner.count,d.src.design.count,d.src.other.count],total=vals.reduce((a,b)=>a+b,0);
+    ['o','d','x'].forEach((k,i)=>{document.getElementById('sn-'+k).textContent=vals[i];document.getElementById('sf-'+k).style.width=(total?vals[i]/total*100:0)+'%'});
+    const donut=charts.find(c=>c.canvas&&c.canvas.id==='srcDonut');if(donut){donut.data.datasets[0].data=vals;donut.update()}
+  }
+  function renderCharts(){
+    charts.forEach(c=>c.destroy());charts=[];
+    if(typeof Chart==='undefined'){const a=document.getElementById('dataAlert');a.style.display='block';a.textContent='圖表元件載入失敗，請確認目前網路連線後重新整理。';return}
+    const css=getComputedStyle(document.documentElement),blue=css.getPropertyValue('--blue').trim(),green=css.getPropertyValue('--green').trim(),mu=css.getPropertyValue('--mu').trim(),grid='rgba(150,150,150,.15)',font={size:12,family:'Noto Sans TC'};
+    const current=sourceViews[document.querySelector('.drop-item.active')?.dataset.key||latest]||sourceViews[latest];
+    charts.push(new Chart(document.getElementById('srcDonut'),{type:'doughnut',data:{labels:['業主','設計公司','其他'],datasets:[{data:[current.src.owner.count,current.src.design.count,current.src.other.count],backgroundColor:[blue,green,mu],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false}}}}));
+    const totals=months.map(m=>stats[m].people);
+    charts.push(new Chart(document.getElementById('stackChart'),{type:'bar',data:{labels:months.map(m=>MONTH_NAME[m]),datasets:[{label:'業主',data:months.map(m=>stats[m].src.owner.people),backgroundColor:blue+'99',stack:'s',borderSkipped:false},{label:'設計公司',data:months.map(m=>stats[m].src.design.people),backgroundColor:green+'99',stack:'s',borderSkipped:false},{label:'其他',data:months.map(m=>stats[m].src.other.people),backgroundColor:mu+'55',stack:'s',borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:mu,usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12,font}},tooltip:{callbacks:{footer:items=>'總人次：'+items.reduce((s,i)=>s+i.parsed.y,0)+' 人'}}},scales:{x:{ticks:{color:mu,font},grid:{color:grid}},y:{ticks:{color:mu,font},grid:{color:grid},suggestedMax:Math.max(...totals)+5}}},plugins:[{id:'totalLabel',afterDatasetsDraw(chart){const ctx=chart.ctx;months.forEach((m,i)=>{let bar=null;for(let d=chart.data.datasets.length-1;d>=0;d--){if(chart.data.datasets[d].data[i]>0){bar=chart.getDatasetMeta(d).data[i];break}}if(!bar)return;ctx.save();ctx.font='bold 13px Noto Sans TC';ctx.fillStyle=mu;ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(totals[i]+' 人',bar.x,bar.y-8);ctx.restore()})}}]}));
+    charts.push(new Chart(document.getElementById('typeChart'),{type:'bar',data:{labels:months.map(m=>MONTH_NAME[m]),datasets:[{label:'業主（次）',data:months.map(m=>stats[m].src.owner.count),backgroundColor:blue+'cc',borderRadius:6,borderSkipped:false},{label:'設計公司（次）',data:months.map(m=>stats[m].src.design.count),backgroundColor:green+'cc',borderRadius:6,borderSkipped:false},{label:'其他（次）',data:months.map(m=>stats[m].src.other.count),backgroundColor:mu+'55',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:mu,usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12,font}}},scales:{x:{ticks:{color:mu,font},grid:{color:grid}},y:{ticks:{color:mu,font,precision:0},grid:{color:grid},beginAtZero:true}}}}));
+  }
 
-new Chart(document.getElementById('stackChart'),{
-  type:'bar',
-  data:{labels:['四月','五月','六月','七月','八月'],datasets:[
-    {label:'業主',data:[9,7,17,6,10],backgroundColor:blue+'99',stack:'s',borderRadius:{topLeft:0,topRight:0,bottomLeft:5,bottomRight:5},borderSkipped:false},
-    {label:'設計公司',data:[4,10,5,0,0],backgroundColor:green+'99',stack:'s',borderRadius:0,borderSkipped:false},
-    {label:'其他',data:[3,0,3,0,0],backgroundColor:mu+'55',stack:'s',borderRadius:{topLeft:5,topRight:5,bottomLeft:0,bottomRight:0},borderSkipped:false},
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{labels:{color:mu,usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12,font}},
-      tooltip:{callbacks:{footer:function(items){var t=items.reduce((s,i)=>s+i.parsed.y,0);return '總人次：'+t+' 人';}}}},
-    scales:{x:{ticks:{color:mu,font},grid:{color:grid}},y:{ticks:{color:mu,font},grid:{color:grid},max:30}}},
-  plugins:[{
-    id:'totalLabel',
-    afterDatasetsDraw:function(chart){
-      var ctx=chart.ctx, totals=[16,17,25,6,10];
-      chart.data.labels.forEach(function(label,i){
-        var meta=chart.getDatasetMeta(2), bar=meta.data[i]; if(!bar)return;
-        ctx.save(); ctx.font='bold 13px Noto Sans TC'; ctx.fillStyle=mu; ctx.textAlign='center'; ctx.textBaseline='bottom';
-        ctx.fillText(totals[i]+' 人', bar.x, bar.y-8); ctx.restore();
-      });
-    }
-  }]
-});
+  function renderAnalysis(){
+    const s=latestStat,p=prevStat,top=STAFF.map(name=>({name,count:monthData(latest).filter(r=>r.receptionist.includes(name)).length})).sort((a,b)=>b.count-a.count)[0];
+    const visitChange=s.count-p.count,peopleChange=s.people-p.people,convChange=s.conversion-p.conversion;
+    const designTitle=s.src.design.count>0&&p.src.design.count===0?'設計公司來訪恢復':'設計公司來訪變化';
+    const designText=s.src.design.count>0?`${latestName}共有 ${s.src.design.count} 筆設計公司到訪、合計 ${s.src.design.people} 人；${previousName}為 ${p.src.design.count} 筆，設計端互動明顯回升。`:`${latestName}設計公司到訪為 0 筆，仍需持續觀察設計端互動。`;
+    const purposeRows=[['了解品牌','learn','b-learn'],['配案採購','purchase','b-purchase'],['其他','other','b-other']].map(([label,key,cls])=>{const total=months.reduce((a,m)=>a+stats[m].purposes[key],0);return `<tr><td><span class="badge ${cls}">${label}</span></td>${months.map(m=>`<td>${stats[m].purposes[key]}</td>`).join('')}<td>${total}</td><td style="color:var(--mu);font-weight:700">${Math.round(total/totalStat.count*100)}%</td></tr>`}).join('');
+    document.getElementById('page-analysis').innerHTML=`
+      <div class="ph"><span class="pill pill-gold">${latestName}觀察</span><h2>分析報告</h2><p>${latestName}客觀趨勢觀察・${monthRange}累計回顧</p></div>
+      <div class="sec">${latestName}市場觀察</div><div class="a-grid stagger">
+        <div class="card a-card" style="--ac:var(--blue)"><div class="a-tag">📈 到訪成長</div><div class="a-title">訪次與人數較${previousName}增加</div><div class="a-text">${latestName}訪客 ${s.count} 筆、總人數 ${s.people} 人，較${previousName}增加 ${visitChange} 筆與 ${peopleChange} 人，單月到訪規模回升。</div></div>
+        <div class="card a-card" style="--ac:var(--gold)"><div class="a-tag">📊 配案占比</div><div class="a-title">配案占比升至 ${s.conversion}%</div><div class="a-text">${latestName}有 ${s.purposes.purchase} 筆配案採購，占比 ${s.conversion}%，較${previousName}的 ${p.conversion}% ${convChange>=0?'增加':'減少'} ${Math.abs(convChange)} 個百分點。</div></div>
+        <div class="card a-card" style="--ac:var(--green)"><div class="a-tag">🏢 設計端互動</div><div class="a-title">${designTitle}</div><div class="a-text">${designText}</div></div>
+        <div class="card a-card" style="--ac:var(--teal)"><div class="a-tag">👥 接待集中度</div><div class="a-title">${top.name} 承接主要接待量</div><div class="a-text">${latestName}由 ${top.name} 接待 ${top.count} 筆；其餘為 ${STAFF.filter(n=>n!==top.name).map(n=>`${n} ${monthData(latest).filter(r=>r.receptionist.includes(n)).length} 筆`).join('、')}。</div></div>
+      </div>
+      <div class="sec">參訪目的分布（${monthRange}）</div><div class="card"><div class="tbl-scroll"><table><thead><tr><th>目的</th>${months.map(m=>`<th>${MONTH_NAME[m]}</th>`).join('')}<th>合計</th><th>占比</th></tr></thead><tbody>${purposeRows}</tbody></table></div></div>`;
+  }
 
-new Chart(document.getElementById('typeChart'),{
-  type:'bar',
-  data:{labels:['四月','五月','六月','七月','八月'],datasets:[
-    {label:'業主（次）',data:[4,4,7,4,5],backgroundColor:blue+'cc',borderRadius:6,borderSkipped:false},
-    {label:'設計公司（次）',data:[1,3,3,0,0],backgroundColor:green+'cc',borderRadius:6,borderSkipped:false},
-    {label:'其他（次）',data:[1,0,2,0,0],backgroundColor:mu+'55',borderRadius:6,borderSkipped:false},
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{labels:{color:mu,usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12,font}}},
-    scales:{x:{ticks:{color:mu,font},grid:{color:grid}},y:{ticks:{color:mu,font},grid:{color:grid}}}}
-});
+  function initTheme(){
+    const d=document.documentElement,btn=document.getElementById('themeBtn'),icon=document.getElementById('themeIcon'),dm=matchMedia('(prefers-color-scheme:dark)').matches;
+    const moon='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',sun='<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+    d.setAttribute('data-theme',dm?'dark':'light');icon.innerHTML=dm?sun:moon;
+    btn.addEventListener('click',()=>{const n=d.getAttribute('data-theme')==='dark'?'light':'dark';d.setAttribute('data-theme',n);icon.innerHTML=n==='dark'?sun:moon;if(document.getElementById('srcDonut'))renderCharts()});
+  }
+  function initNav(){document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+b.dataset.page).classList.add('active')}))}
 
-/* Conversion list */
-var convData=[
-  {m:'四月',pct:33,color:mu,chip:'一般',chipbg:'color-mix(in oklch,'+mu+' 15%,transparent)'},
-  {m:'五月',pct:57,color:green,chip:'高意願 🔥',chipbg:'color-mix(in oklch,'+green+' 15%,transparent)'},
-  {m:'六月',pct:67,color:'var(--gold)',chip:'高意願 🔥',chipbg:'var(--gold-g)'},
-  {m:'七月',pct:50,color:'var(--gold)',chip:'高意願 🔥',chipbg:'var(--gold-g)'},
-  {m:'八月',pct:20,color:mu,chip:'一般',chipbg:'color-mix(in oklch,'+mu+' 15%,transparent)'},
-];
-var convHtml=convData.map(function(c){
-  return '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">'+
-    '<span style="width:44px;font-size:14px;font-weight:700;color:'+c.color+'">'+c.m+'</span>'+
-    '<div style="flex:1;background:color-mix(in oklch,var(--text) 8%,transparent);border-radius:999px;height:10px;overflow:hidden">'+
-      '<div style="height:100%;border-radius:999px;background:'+c.color+';width:'+c.pct+'%;transition:width 1.2s cubic-bezier(.16,1,.3,1)"></div>'+
-    '</div>'+
-    '<span style="width:44px;font-weight:800;color:'+c.color+';text-align:right">'+c.pct+'%</span>'+
-    '<span style="font-size:12px;padding:4px 10px;border-radius:999px;background:'+c.chipbg+';color:'+c.color+';font-weight:700">'+c.chip+'</span>'+
-  '</div>';
-}).join('');
-document.getElementById('conv-list').innerHTML=convHtml;
+  if(!DATA.length){const a=document.getElementById('dataAlert');a.style.display='block';a.textContent='找不到訪客資料，請檢查 Excel 是否包含日期、姓名、來源、人數、參訪目的與接待人員欄位。';return}
+  initTheme();renderOverview();renderDetail();renderTrend();renderAnalysis();initNav();
+})();
 </script>
 </body>
 </html>
