@@ -316,12 +316,25 @@ function parseVisitorCSV(text){
   return records.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
 }
 async function loadVisitors(){
-  let csv;
+  // Standalone previews may be served over HTTPS without sibling files.
+  // Use the embedded export when the external CSV is unavailable.
+  let csv=document.getElementById('visitor-data').textContent;
   if(location.protocol==='http:'||location.protocol==='https:'){
-    const response=await fetch('data/visitors.csv',{cache:'no-store'});
-    if(!response.ok)throw Error('找不到 data/visitors.csv，請確認 CSV 檔案位置。');
-    csv=await response.text();
-  }else csv=document.getElementById('visitor-data').textContent;
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),2500);
+    try{
+      const response=await fetch('data/visitors.csv',{cache:'no-store',signal:controller.signal});
+      if(response.ok){
+        const content=await response.text();
+        // Preview hosts sometimes return their HTML shell with HTTP 200.
+        const isHTML=/text\/html/i.test(response.headers.get('content-type')||'')||/^\s*(?:<!doctype\s+html|<html\b)/i.test(content);
+        if(!isHTML)csv=content;
+      }
+    }catch(error){
+      // Offline, blocked and timed-out requests retain the CSV snapshot.
+    }finally{clearTimeout(timeout);}
+  }
+  // An available but malformed CSV is still reported, never silently ignored.
   return parseVisitorCSV(csv);
 }
 
@@ -368,13 +381,15 @@ async function loadVisitors(){
   document.getElementById('updatedLabel').textContent=`資料：${year}/${months[0]}–${latest}｜製作：2026/11/02`;
   document.title=`${year} ${Number(latest)}月 BAKER 台中門市 訪客月報`;
 
+  const campaignFor=m=>year==='2026'&&m==='10'?'家具換新季':'';
+
   function renderOverview(){
     const s=latestStat,p=prevStat,cl=classify(s.conversion);
     const monthlyVisits=months.map(m=>`${MONTH_SHORT[m]}${stats[m].count}`).join('・');
     const monthlyPeople=months.map(m=>`${MONTH_SHORT[m]}${stats[m].people}`).join('・');
     const staff=STAFF.map(name=>({name,count:monthData(latest).filter(r=>r.receptionist.includes(name)).length})).sort((a,b)=>b.count-a.count||STAFF.indexOf(a.name)-STAFF.indexOf(b.name));
     document.getElementById('page-overview').innerHTML=`
-      <div class="ph"><span class="pill">最新月報</span><h2>${latestName}月報總覽</h2><p>BAKER 台中門市・${year} 年${latestName}完整數據・${monthRange}累計匯總</p></div>
+      <div class="ph"><span class="pill">最新月報</span>${campaignFor(latest)?` <span class="pill pill-gold">${campaignFor(latest)}｜活動月</span>`:''}<h2>${latestName}月報總覽</h2><p>BAKER 台中門市・${year} 年${latestName}完整數據・${monthRange}累計匯總</p></div>
       <div class="sec">${latestName}當月 KPI</div>
       <div class="g5 stagger" style="margin-bottom:26px">
         <div class="card kpi" style="--kc:var(--blue)"><div class="kpi-l">訪客次數</div><div class="kpi-v">${s.count}</div><div class="kpi-s">筆記錄</div></div>
@@ -414,7 +429,7 @@ async function loadVisitors(){
       <td><span class="badge ${sourceBadge(r.source)}">${esc(r.source)}</span></td><td>${esc(r.company||'—')}</td><td>${r.people}</td>
       <td><span class="badge ${purposeBadge(r)}">${esc(isPurchase(r)?'配案採購':r.purpose)}</span></td>
       <td>${esc(r.note||'—').replace(/\n/g,'<br>')}</td><td>${esc(r.receptionist||'未填')}</td></tr>`).join('');
-    return `<div class="card month-block" data-m="${m}" style="margin-bottom:20px"><div class="mb-hd"><div><h3>${MONTH_NAME[m]}${ann}${latestMark}</h3><p>${s.count} 筆・${s.people} 人・業主 ${s.src.owner.count} 次・設計 ${s.src.design.count} 次・其他 ${s.src.other.count} 次・配案 ${s.conversion.toFixed(1)}%</p></div><span class="pill ${cl.cls}">${cl.label}</span></div><div class="tbl-scroll"><table><thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+    return `<div class="card month-block" data-m="${m}" style="margin-bottom:20px"><div class="mb-hd"><div><h3>${MONTH_NAME[m]}${ann}${latestMark}${campaignFor(m)?` <span class="pill pill-gold">${campaignFor(m)}｜活動月</span>`:''}</h3><p>${s.count} 筆・${s.people} 人・業主 ${s.src.owner.count} 次・設計 ${s.src.design.count} 次・其他 ${s.src.other.count} 次・配案 ${s.conversion.toFixed(1)}%</p></div><span class="pill ${cl.cls}">${cl.label}</span></div><div class="tbl-scroll"><table><thead><tr><th>日期</th><th>姓名</th><th>來源</th><th>設計公司</th><th>人數</th><th>目的</th><th>備註</th><th>接待</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
   }
   function renderDetail(){
     const filters=months.map(m=>`<button class="f-btn${m===latest?' active':''}" data-m="${m}">${MONTH_NAME[m]}（${stats[m].count}筆）${m==='06'?'🎂':m===latest?'🆕':''}</button>`).join('');
@@ -470,7 +485,7 @@ async function loadVisitors(){
     if(typeof Chart==='undefined'){const a=document.getElementById('dataAlert');a.style.display='block';a.textContent='圖表元件載入失敗，請確認網路連線後重新整理。';return}
     if(!aggregateMonths(PERIODS[activePeriod].months).count)return;
     const css=getComputedStyle(document.documentElement),color=k=>css.getPropertyValue(k).trim(),blue=color('--blue'),green=color('--green'),gold=color('--gold'),text=color('--text'),mu=color('--mu');
-    const list=PERIODS[activePeriod].months,labels=list.map(m=>MONTH_NAME[m]),data=list.map(m=>stats[m]||null);
+    const list=PERIODS[activePeriod].months,labels=list.map(m=>campaignFor(m)?[MONTH_NAME[m],campaignFor(m)+' · 活動月']:MONTH_NAME[m]),data=list.map(m=>stats[m]||null);
     const axis=(title,max)=>({beginAtZero:true,...(max?{max}:{}),title:{display:true,text:title,color:text},ticks:{color:text,precision:0},grid:{color:'rgba(150,150,150,.15)'}});
     const options=()=>({responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:text,usePointStyle:true}}},scales:{x:{ticks:{color:text},grid:{display:false}},y:axis('')}});
     const scaleOpt=options();scaleOpt.scales.y=axis('到訪次數（次）');scaleOpt.scales.people={...axis('到訪人數（人）'),position:'right',grid:{drawOnChartArea:false}};
@@ -530,7 +545,7 @@ async function loadVisitors(){
       [`設計公司 ${s.src.design.count} 次；媒體／採訪 ${media.length} 次`,'設計端追蹤個案需求，媒體端追蹤採訪與合作；分別記錄後續成果。','設計公司後續配案及媒體合作進度，避免混入採購數。']
     ];
     document.getElementById('page-analysis').innerHTML=`<article class="card report-sheet" aria-labelledby="reportTitle">
-      <header class="report-header"><span class="report-eyebrow">BAKER 台中門市 · 管理月報</span><h2 id="reportTitle">${year} 年${latestName}訪客分析報告</h2><p>本月觀察：${year}/${latest}　｜　資料範圍：${year}/${months[0]}–${latest}</p></header>
+      <header class="report-header"><span class="report-eyebrow">BAKER 台中門市 · 管理月報</span><h2 id="reportTitle">${year} 年${latestName}訪客分析報告</h2><p>本月觀察：${year}/${latest}　｜　資料範圍：${year}/${months[0]}–${latest}</p>${campaignFor(latest)?`<p style="margin-top:12px"><span class="pill pill-gold">${campaignFor(latest)}｜活動月</span></p><p style="margin-top:8px">本月為「${campaignFor(latest)}」活動月，以下觀察一併納入活動期間背景。</p>`:''}</header>
       <section class="report-summary"><h3>核心結論</h3><ol>${summary.map(([title,body])=>`<li><strong>${title}</strong><p>${body}</p></li>`).join('')}</ol></section>
       <section class="report-section"><h3><span>01</span> 月度變化：來訪規模與來源</h3><p>${latestName}共 ${s.count} 次、${s.people} 人，較${previousName} ${p.count} 次、${p.people} 人，訪次${relative(s.count,p.count)}、人數${relative(s.people,p.people)}。平均每次到訪人數由 ${num(p.people/p.count)} 變為 ${num(s.people/s.count)} 人。</p>${table(['來源',`${previousName} → ${latestName}訪次`,'人數變化'],sourceRows)}<p class="report-reading"><strong>判讀：</strong>${sourceReading}</p><h4>需求變化：目的分類與具體備註一起看</h4><p>配案需求由 ${p.purposes.purchase} 次變為 ${s.purposes.purchase} 次，占比由 ${pct(rate(p))} 變為 ${pct(rate(s))}，${rate(s)>=rate(p)?'增加':'減少'} ${num(Math.abs(rate(s)-rate(p)))} 個百分點。另有 ${learn.length} 次了解品牌、${s.purposes.other} 次其他目的。${media.length} 次可由備註辨識為媒體／採訪互動。</p><p class="report-reading"><strong>判讀：</strong>已標記的採購需求與來訪量需分開追蹤。部分了解品牌紀錄已有具體需求，宜推進下一步確認；原始分類保留，避免為提高需求占比而重新歸類。</p></section>
       <section class="report-section"><h3><span>02</span> 每月走勢：季度內的轉折</h3>${qNarratives}<p class="report-reading"><strong>判讀：</strong>${latestName}訪次較${previousName}${relative(s.count,p.count)}，${s.count<p.count?'前期的上升走勢未延續至本月。':s.count>p.count?'本月增長仍需後續月份確認能否延續。':'本月持平，仍需持續觀察。'}月度轉折應連同來源、具體需求及案件進度觀察。</p></section>
